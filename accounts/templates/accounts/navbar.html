@@ -1,0 +1,15 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Rentals</a>
+
+    <div>
+      {% if user.is_authenticated %}
+        <a href="/dashboard/" class="btn btn-light">Dashboard</a>
+        <a href="/logout/" class="btn btn-danger">Logout</a>
+      {% else %}
+        <a href="/login/" class="btn btn-light">Login</a>
+        <a href="/register/" class="btn btn-success">Register</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>

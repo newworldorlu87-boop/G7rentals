@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Available Rentals</h2>
+
+<form method="get" class="mb-3">
+    <input type="text" name="q" placeholder="Search location" class="form-control">
+</form>
+
+<div class="row">
+{% for property in properties %}
+<div class="col-md-4">
+  <div class="card mb-3">
+    <img src="{{ property.image.url }}" class="card-img-top">
+    <div class="card-body">
+      <h5>{{ property.title }}</h5>
+      <p>{{ property.location }}</p>
+      <p>${{ property.price }}</p>
+      <a href="/property/{{ property.id }}/" class="btn btn-primary">View</a>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

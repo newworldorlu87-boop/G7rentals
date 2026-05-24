@@ -1,0 +1,686 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f3f4f6;
+}
+
+/* LAYOUT */
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#4c1d95,#6d28d9);
+    color:white;
+    position:fixed;
+    height:100%;
+    padding:30px 20px;
+    overflow-y:auto;
+    box-shadow:4px 0 20px rgba(0,0,0,0.12);
+}
+
+.sidebar h2{
+    margin-bottom:40px;
+    font-size:26px;
+    text-align:center;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#ddd;
+    text-decoration:none;
+    padding:14px 16px;
+    border-radius:12px;
+    margin-bottom:12px;
+    transition:0.3s;
+    font-weight:500;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+    background:rgba(255,255,255,0.15);
+    color:white;
+    transform:translateX(5px);
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    width:100%;
+}
+
+/* NAVBAR */
+.navbar{
+    background:white;
+    padding:18px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 10px rgba(0,0,0,0.06);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.navbar h3{
+    color:#111827;
+    font-size:24px;
+}
+
+/* USER BOX */
+.user-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar-small{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    overflow:hidden;
+    background:#6f42c1;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.avatar-small img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* CONTENT */
+.content{
+    padding:30px;
+}
+
+/* PROFILE WRAPPER */
+.profile-wrapper{
+    display:grid;
+    grid-template-columns:320px 1fr;
+    gap:25px;
+}
+
+/* LEFT CARD */
+.profile-left{
+    background:white;
+    border-radius:20px;
+    padding:30px 25px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+    height:fit-content;
+}
+
+.profile-image{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    overflow:hidden;
+    margin:auto;
+    border:5px solid #6f42c1;
+    margin-bottom:18px;
+}
+
+.profile-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.default-avatar{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:#6f42c1;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:45px;
+    font-weight:bold;
+    margin:auto;
+    margin-bottom:18px;
+}
+
+.profile-left h2{
+    color:#111827;
+    margin-bottom:8px;
+}
+
+.profile-left p{
+    color:#666;
+    margin-bottom:8px;
+}
+
+.role-badge{
+    display:inline-block;
+    background:#ede9fe;
+    color:#6d28d9;
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+/* RIGHT CARD */
+.profile-right{
+    background:white;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+/* ALERT */
+.alert{
+    background:#dcfce7;
+    color:#166534;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:25px;
+    font-weight:500;
+}
+
+/* SECTION TITLE */
+.section-title{
+    margin-bottom:25px;
+}
+
+.section-title h3{
+    color:#111827;
+    margin-bottom:5px;
+}
+
+.section-title p{
+    color:#6b7280;
+    font-size:14px;
+}
+
+/* FORM GRID */
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.full-width{
+    grid-column:1 / -1;
+}
+
+/* FORM */
+.form-group{
+    margin-bottom:5px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#374151;
+}
+
+.form-group input,
+.form-group textarea{
+    width:100%;
+    padding:14px 16px;
+    border:1px solid #d1d5db;
+    border-radius:12px;
+    outline:none;
+    transition:0.3s;
+    background:#fafafa;
+    font-size:14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+    border-color:#6f42c1;
+    background:white;
+    box-shadow:0 0 0 4px rgba(111,66,193,0.1);
+}
+
+textarea{
+    min-height:130px;
+    resize:none;
+}
+
+/* FILE INPUT */
+.file-input{
+    background:white !important;
+    padding:12px !important;
+}
+
+/* BUTTON */
+.btn{
+    background:linear-gradient(135deg,#6f42c1,#5b21b6);
+    color:white;
+    border:none;
+    padding:15px 22px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    transition:0.3s;
+    width:100%;
+    margin-top:10px;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(111,66,193,0.2);
+}
+
+/* INFO BOX */
+.info-box{
+    background:#f9fafb;
+    border:1px solid #eee;
+    padding:18px;
+    border-radius:14px;
+    margin-top:25px;
+}
+
+.info-box h4{
+    margin-bottom:10px;
+    color:#111827;
+}
+
+.info-box p{
+    color:#6b7280;
+    line-height:1.6;
+    font-size:14px;
+}
+
+/* MOBILE */
+@media(max-width:950px){
+
+    .profile-wrapper{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        width:85px;
+        overflow:hidden;
+    }
+
+    .sidebar h2{
+        font-size:16px;
+    }
+
+    .sidebar a{
+        justify-content:center;
+        padding:14px 6px;
+        font-size:12px;
+    }
+
+    .main{
+        margin-left:85px;
+    }
+
+    .content{
+        padding:15px;
+    }
+
+    .navbar{
+        padding:16px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <h2>👤 Profile</h2>
+
+        {% if request.user.user_type == 'tenant' %}
+
+        <a href="{% url 'tenant_dashboard' %}">
+            📊 Dashboard
+        </a>
+
+        {% else %}
+
+        <a href="{% url 'landlord_dashboard' %}">
+            📊 Dashboard
+        </a>
+
+        {% endif %}
+
+        <a href="{% url 'property_list' %}">
+            🏠 Properties
+        </a>
+
+        <a href="{% url 'profile' %}" class="active">
+            👤 My Profile
+        </a>
+
+        <a href="{% url 'logout' %}">
+            🚪 Logout
+        </a>
+
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- NAVBAR -->
+        <div class="navbar">
+
+            <h3>My Profile</h3>
+
+            <div class="user-box">
+
+                <div>
+
+                    <strong>
+                        {{ request.user.username }}
+                    </strong>
+
+                    <p style="font-size:12px;color:gray;">
+                        {{ request.user.user_type|title }}
+                    </p>
+
+                </div>
+
+                <div class="avatar-small">
+
+                    {% if profile.avatar %}
+                        <img src="{{ profile.avatar.url }}">
+                    {% else %}
+                        {{ request.user.username|first|upper }}
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <div class="profile-wrapper">
+
+                <!-- LEFT -->
+                <div class="profile-left">
+
+                    {% if profile.avatar %}
+
+                    <div class="profile-image">
+                        <img src="{{ profile.avatar.url }}">
+                    </div>
+
+                    {% else %}
+
+                    <div class="default-avatar">
+                        {{ request.user.username|first|upper }}
+                    </div>
+
+                    {% endif %}
+
+                    <h2>
+                        {{ request.user.username }}
+                    </h2>
+
+                    <p>
+                        {{ request.user.email }}
+                    </p>
+
+                    {% if request.user.phone %}
+                    <p>
+                        📞 {{ request.user.phone }}
+                    </p>
+                    {% endif %}
+
+                    <span class="role-badge">
+                        {{ request.user.user_type|title }}
+                    </span>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="profile-right">
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="section-title">
+
+                        <h3>
+                            Edit Profile Information
+                        </h3>
+
+                        <p>
+                            Update your personal details and profile settings.
+                        </p>
+
+                    </div>
+
+                    <form method="POST"
+                          enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <div class="form-grid">
+
+                            <!-- USERNAME -->
+                            <div class="form-group">
+
+                                <label>
+                                    Username
+                                </label>
+
+                                <input type="text"
+                                       value="{{ request.user.username }}"
+                                       disabled>
+
+                            </div>
+
+                            <!-- EMAIL -->
+                            <div class="form-group">
+
+                                <label>
+                                    Email Address
+                                </label>
+
+                                <input type="email"
+                                       value="{{ request.user.email }}"
+                                       disabled>
+
+                            </div>
+
+                            <!-- PHONE -->
+                            <div class="form-group">
+
+                                <label>
+                                    Phone Number
+                                </label>
+
+                                <input type="text"
+                                       name="phone"
+                                       value="{{ request.user.phone }}"
+                                       placeholder="Enter phone number">
+
+                            </div>
+
+                            <!-- CITY -->
+                            <div class="form-group">
+
+                                <label>
+                                    City
+                                </label>
+
+                                <input type="text"
+                                       name="city"
+                                       value="{{ profile.city }}"
+                                       placeholder="Enter city">
+
+                            </div>
+
+                            <!-- COUNTRY -->
+                            <div class="form-group">
+
+                                <label>
+                                    Country
+                                </label>
+
+                                <input type="text"
+                                       name="country"
+                                       value="{{ profile.country }}"
+                                       placeholder="Enter country">
+
+                            </div>
+
+                            <!-- AVATAR -->
+                            <div class="form-group">
+
+                                <label>
+                                    Upload Avatar
+                                </label>
+
+                                <input type="file"
+                                       name="avatar"
+                                       class="file-input">
+
+                            </div>
+
+                            <!-- ADDRESS -->
+                            <div class="form-group full-width">
+
+                                <label>
+                                    Address
+                                </label>
+
+                                <input type="text"
+                                       name="address"
+                                       value="{{ profile.address }}"
+                                       placeholder="Enter address">
+
+                            </div>
+
+                            <!-- BIO -->
+                            <div class="form-group full-width">
+
+                                <label>
+                                    Bio
+                                </label>
+
+                                <textarea name="bio"
+                                          placeholder="Tell us about yourself...">{{ profile.bio }}</textarea>
+
+                            </div>
+
+                            <!-- LANDLORD SECTION -->
+                            {% if request.user.user_type == 'landlord' %}
+
+                            <div class="form-group">
+
+                                <label>
+                                    Company Name
+                                </label>
+
+                                <input type="text"
+                                       name="company_name"
+                                       value="{{ profile.company_name }}"
+                                       placeholder="Company name">
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>
+                                    Business Address
+                                </label>
+
+                                <input type="text"
+                                       name="business_address"
+                                       value="{{ profile.business_address }}"
+                                       placeholder="Business address">
+
+                            </div>
+
+                            {% endif %}
+
+                            <!-- BUTTON -->
+                            <div class="full-width">
+
+                                <button type="submit"
+                                        class="btn">
+
+                                    Save Changes
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                    <div class="info-box">
+
+                        <h4>
+                            Account Information
+                        </h4>
+
+                        <p>
+                            Account Type:
+                            <strong>
+                                {{ request.user.user_type|title }}
+                            </strong>
+                        </p>
+
+                        <p>
+                            Email Verification:
+                            {% if request.user.is_verified %}
+                                ✅ Verified
+                            {% else %}
+                                ❌ Not Verified
+                            {% endif %}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

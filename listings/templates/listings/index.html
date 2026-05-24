@@ -1,0 +1,232 @@
+ {% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f6f9;
+}
+
+/* HERO */
+.hero{
+    height:85vh;
+    background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+    url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1400&q=80');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:white;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:48px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:18px;
+    margin-bottom:25px;
+    color:#ddd;
+}
+
+.hero a{
+    display:inline-block;
+    padding:12px 20px;
+    margin:5px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:#6f42c1;
+    color:white;
+}
+
+.btn-outline{
+    border:2px solid white;
+    color:white;
+}
+
+/* FEATURES */
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:60px 20px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.feature{
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+    text-align:center;
+}
+
+.feature h3{
+    margin-bottom:10px;
+    color:#111827;
+}
+
+/* PROPERTIES PREVIEW */
+.preview{
+    padding:60px 20px;
+    background:#fff;
+    text-align:center;
+}
+
+.preview h2{
+    margin-bottom:30px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.card{
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    background:white;
+}
+
+.card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+
+.card-body{
+    padding:15px;
+    text-align:left;
+}
+
+.price{
+    color:green;
+    font-weight:bold;
+}
+
+/* CTA */
+.cta{
+    padding:70px 20px;
+    background:#6f42c1;
+    color:white;
+    text-align:center;
+}
+
+.cta h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.cta a{
+    display:inline-block;
+    margin-top:15px;
+    background:white;
+    color:#6f42c1;
+    padding:12px 20px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+</style>
+
+<!-- HERO -->
+<div class="hero">
+    <div>
+        <h1>Find Your Perfect Home Easily</h1>
+        <p>Rent apartments, houses, and rooms from trusted landlords across your city.</p>
+
+        <a href="{% url 'property_list' %}" class="btn-primary">
+            Browse Properties
+        </a>
+
+        {% if not request.user.is_authenticated %}
+        <a href="{% url 'login' %}" class="btn-outline">
+            Login
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+
+    <div class="feature">
+        <h3>🏠 Verified Listings</h3>
+        <p>All properties are checked before being published.</p>
+    </div>
+
+    <div class="feature">
+        <h3>💬 Direct Chat</h3>
+        <p>Talk directly with landlords without middlemen.</p>
+    </div>
+
+    <div class="feature">
+        <h3>🔒 Safe Rentals</h3>
+        <p>Secure booking system with status tracking.</p>
+    </div>
+
+</div>
+
+<!-- PROPERTY PREVIEW -->
+<div class="preview">
+
+    <h2>🔥 Latest Properties</h2>
+
+    <div class="grid">
+
+        {% for property in properties|slice:":6" %}
+
+        <div class="card">
+
+            <img src="{{ property.image.url }}">
+
+            <div class="card-body">
+
+                <h4>{{ property.title }}</h4>
+                <p>{{ property.city }}</p>
+                <p class="price">₦{{ property.price }}</p>
+
+                <a href="{% url 'login' %}">
+                    View Details
+                </a>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p>No properties available yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta">
+    <h2>Are you a landlord?</h2>
+    <p>List your property and start receiving tenants today.</p>
+
+    <a href="{% url 'login' %}">
+        Add Your Property
+    </a>
+</div>
+
+{% endblock %}

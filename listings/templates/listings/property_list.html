@@ -1,0 +1,391 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f3f4f6;
+    font-family:Arial, sans-serif;
+}
+
+/* PAGE */
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.header h2{
+    font-size:32px;
+    color:#111827;
+}
+
+/* SEARCH BAR */
+.search-box{
+    background:white;
+    padding:10px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    margin-bottom:30px;
+}
+
+.search-box input{
+    width:100%;
+    border:none;
+    outline:none;
+    font-size:15px;
+    padding:12px;
+}
+
+.search-box button{
+    background:#4f46e5;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.search-box button:hover{
+    background:#4338ca;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    transition:0.35s ease;
+    position:relative;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.12);
+}
+
+/* IMAGE */
+.card-image{
+    position:relative;
+    overflow:hidden;
+}
+
+.card-image img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    transition:0.4s;
+}
+
+.card:hover .card-image img{
+    transform:scale(1.05);
+}
+
+/* PRICE TAG */
+.price-tag{
+    position:absolute;
+    top:15px;
+    right:15px;
+    background:#16a34a;
+    color:white;
+    padding:8px 14px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:bold;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* BODY */
+.card-body{
+    padding:22px;
+}
+
+.card-body h3{
+    color:#111827;
+    margin-bottom:10px;
+    font-size:22px;
+}
+
+.location{
+    color:#6b7280;
+    margin-bottom:15px;
+    font-size:15px;
+}
+
+/* PROPERTY INFO */
+.property-info{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+    color:#6b7280;
+    font-size:14px;
+}
+
+/* BUTTONS */
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    flex:1;
+    text-align:center;
+    padding:11px 14px;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+/* VIEW */
+.btn-view{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-view:hover{
+    background:#1d4ed8;
+}
+
+/* BOOK */
+.btn-book{
+    background:#7c3aed;
+    color:white;
+}
+
+.btn-book:hover{
+    background:#6d28d9;
+}
+
+/* SAVE */
+.btn-save{
+    background:#f3f4f6;
+    color:#111827;
+}
+
+.btn-save:hover{
+    background:#e5e7eb;
+}
+
+/* SAVED */
+.btn-saved{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.btn-saved:hover{
+    background:#fecaca;
+}
+
+/* ADD PROPERTY BUTTON */
+.add-btn{
+    background:#16a34a;
+    color:white;
+    padding:12px 18px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.add-btn:hover{
+    background:#15803d;
+}
+
+/* EMPTY */
+.empty{
+    background:white;
+    padding:50px;
+    text-align:center;
+    border-radius:20px;
+    color:#6b7280;
+    box-shadow:0 5px 15px rgba(0,0,0,0.06);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .header h2{
+        font-size:26px;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+}
+
+</style>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <h2>🏠 Available Properties</h2>
+
+        {% if user.is_authenticated and user.user_type == 'landlord' %}
+        <a href="{% url 'create_property' %}" class="add-btn">
+            ➕ Add Property
+        </a>
+        {% endif %}
+
+    </div>
+
+    <!-- SEARCH -->
+    <form method="GET"
+          action="{% url 'property_list' %}"
+          class="search-box">
+
+        <input type="text"
+               name="q"
+               placeholder="Search by city, location, property type..."
+               value="{{ request.GET.q }}">
+
+        <button type="submit">
+            🔍 Search
+        </button>
+
+    </form>
+
+    <!-- GRID -->
+    <div class="grid">
+
+        {% for property in properties %}
+
+        <div class="card">
+
+            <!-- IMAGE -->
+            <div class="card-image">
+
+                <a href="{% url 'detail' property.id %}">
+                    <img src="{{ property.image.url }}">
+                </a>
+
+                <div class="price-tag">
+                    ₦{{ property.price }}
+                </div>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="card-body">
+
+                <h3>{{ property.title }}</h3>
+
+                <p class="location">
+                    📍 {{ property.city }}
+                </p>
+
+                <div class="property-info">
+
+                    <span>
+                        🏠 {{ property.property_type }}
+                    </span>
+
+                    <span>
+                        ⭐ Premium
+                    </span>
+
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="actions">
+
+                    <a href="{% url 'detail' property.id %}"
+                       class="btn btn-view">
+                        View
+                    </a>
+
+                    {% if request.user.is_authenticated and request.user.user_type == 'tenant' %}
+
+                    <a href="{% url 'book_property' property.id %}"
+                       class="btn btn-book">
+                        📅 Book
+                    </a>
+
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+
+                        {% if property.id in favorites %}
+
+                        <a href="{% url 'toggle_favorite' property.id %}"
+                           class="btn btn-saved">
+                            ❤️ Saved
+                        </a>
+
+                        {% else %}
+
+                        <a href="{% url 'toggle_favorite' property.id %}"
+                           class="btn btn-save">
+                            🤍 Save
+                        </a>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty">
+
+            <h3 style="margin-bottom:10px;">
+                No Properties Found
+            </h3>
+
+            <p>
+                Try searching another location or add a new property.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

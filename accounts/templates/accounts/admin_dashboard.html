@@ -1,0 +1,256 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.card h2{
+    margin:0;
+    color:#007bff;
+}
+
+.section{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th,
+table td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
+}
+
+.title{
+    margin-bottom:25px;
+}
+
+.badge{
+    padding:5px 10px;
+    border-radius:6px;
+    color:white;
+    font-size:12px;
+}
+
+.landlord{
+    background:green;
+}
+
+.tenant{
+    background:#007bff;
+}
+</style>
+
+<div class="container">
+
+    <div class="title">
+        <h1>🛠 Admin Dashboard</h1>
+        <p>Manage landlords, tenants, properties and bookings</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+
+        <div class="card">
+            <p>Total Landlords</p>
+            <h2>{{ total_landlords }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Tenants</p>
+            <h2>{{ total_tenants }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Properties</p>
+            <h2>{{ total_properties }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Bookings</p>
+            <h2>{{ total_bookings }}</h2>
+        </div>
+
+    </div>
+
+    <!-- LANDLORDS -->
+    <div class="section">
+
+        <h2>🏠 Landlords</h2>
+
+        <table>
+            <tr>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+            </tr>
+
+            {% for landlord in landlords %}
+            <tr>
+                <td>{{ landlord.email }}</td>
+                <td>{{ landlord.phone }}</td>
+                <td>
+                    <span class="badge landlord">
+                        Landlord
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <!-- TENANTS -->
+    <div class="section">
+
+        <h2>👤 Tenants</h2>
+
+        <table>
+            <tr>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+            </tr>
+
+            {% for tenant in tenants %}
+            <tr>
+                <td>{{ tenant.email }}</td>
+                <td>{{ tenant.phone }}</td>
+                <td>
+                    <span class="badge tenant">
+                        Tenant
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <!-- PROPERTIES -->
+    <div class="section">
+
+        <h2>🏘 Properties</h2>
+
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Owner</th>
+                <th>City</th>
+                <th>Price</th>
+            </tr>
+
+            {% for property in properties %}
+            <tr>
+
+                <td>
+                    <img src="{{ property.image.url }}"
+                         width="70"
+                         style="border-radius:8px;">
+                </td>
+
+                <td>{{ property.title }}</td>
+                <td>{{ property.owner.email }}</td>
+                <td>{{ property.city }}</td>
+                <td>₦{{ property.price }}</td>
+
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <div class="section">
+
+    <h2>💬 User Chats</h2>
+
+    {% for msg in messages_list %}
+
+    <div class="card">
+
+        <p>
+            <strong>{{ msg.sender.username }}</strong>
+            →
+            <strong>{{ msg.receiver.username }}</strong>
+        </p>
+
+        <p>
+            {{ msg.message }}
+        </p>
+
+        <small>
+            {{ msg.created_at }}
+        </small>
+
+    </div>
+
+    {% empty %}
+
+    <p>No messages yet.</p>
+
+    {% endfor %}
+
+</div>
+
+    <!-- BOOKINGS -->
+    <div class="section">
+
+        <h2>📅 Bookings</h2>
+
+        <table>
+
+            <tr>
+                <th>Tenant</th>
+                <th>Property</th>
+            </tr>
+
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.tenant.email }}</td>
+                <td>{{ booking.property.title }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

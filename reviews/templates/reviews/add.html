@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Leave a Review</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Rating (1–5)</label>
+    <input type="number" name="rating" class="form-control">
+
+    <label>Comment</label>
+    <textarea name="comment" class="form-control"></textarea>
+
+    <button class="btn btn-primary mt-3">Submit</button>
+</form>
+{% endblock %}

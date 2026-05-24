@@ -1,0 +1,133 @@
+
+
+{% block content %}
+
+<style>
+/* HERO */
+.hero {
+    height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+}
+
+.search-box {
+    margin-top: 20px;
+}
+
+.search-box input {
+    padding: 12px;
+    width: 250px;
+    border-radius: 8px;
+    border: none;
+}
+
+.search-box button {
+    padding: 12px 20px;
+    border: none;
+    background: #28a745;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* PROPERTY GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    background: white;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+/* CTA */
+.cta {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+</style>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <div>
+        <h1>Find Your Dream Rental</h1>
+        <p>Search houses, apartments, and more</p>
+
+        <form method="get" action="{% url 'property_list' %}" class="search-box">
+            <input type="text" name="city" placeholder="Enter city...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<!-- FEATURED PROPERTIES -->
+<h2 style="text-align:center; margin-top:30px;">Featured Listings</h2>
+
+<div class="grid">
+    {% for property in featured %}
+    <div class="card">
+        {% if property.images.first %}
+            <img src="{{ property.images.first.image.url }}">
+        {% endif %}
+
+        <div class="card-body">
+            <h4>{{ property.title }}</h4>
+            <p>₦{{ property.price }}</p>
+            <p>{{ property.city }}</p>
+
+            <a href="{% url 'property_detail' property.id %}">View</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- CALL TO ACTION -->
+<div class="cta">
+    <h2>Are you a landlord?</h2>
+    <p>List your property and reach thousands</p>
+    <a href="{% url 'create_property' %}" style="color:#28a745;">Add Property</a>
+</div>
+
+<!-- SIMPLE INTERACTION -->
+<script>
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+        card.style.boxShadow = "0 10px 25px rgba(0,0,0,0.2)";
+    });
+});
+</script>
+
+{% endblock %}

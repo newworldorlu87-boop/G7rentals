@@ -1,0 +1,86 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+body {
+    background: #f5f7fa;
+    font-family: Arial, sans-serif;
+}
+
+/* CONTAINER */
+.form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+/* TITLE */
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* INPUTS */
+form input, 
+form select, 
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #6f42c1;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #5a32a3;
+}
+
+/* ERROR */
+.error-box {
+    background: #ffe6e6;
+    color: red;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+</style>
+
+<div class="form-container">
+
+    <h2>➕ Create Property</h2>
+
+    <!-- SHOW ERRORS -->
+    {% if form.errors %}
+        <div class="error-box">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <!-- FORM -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Create Property</button>
+    </form>
+
+</div>
+
+{% endblock %}

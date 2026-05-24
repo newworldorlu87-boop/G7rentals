@@ -1,0 +1,378 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial,sans-serif;
+}
+
+/* CONTAINER */
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+/* HERO IMAGE */
+.hero img{
+    width:100%;
+    height:420px;
+    object-fit:cover;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.12);
+}
+
+/* CARD */
+.card{
+    background:white;
+    margin-top:25px;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+.property-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.property-title h2{
+    font-size:32px;
+    color:#111827;
+}
+
+/* PRICE */
+.price{
+    color:#16a34a;
+    font-size:30px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+/* INFO */
+.property-info{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.info-box{
+    background:#f9fafb;
+    padding:18px;
+    border-radius:14px;
+}
+
+/* BUTTONS */
+.actions{
+    margin-top:25px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:12px 18px;
+    border-radius:10px;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:14px;
+    font-weight:600;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+.btn-chat{
+    background:#7c3aed;
+    color:white;
+}
+
+.btn-chat:hover{
+    background:#5b21b6;
+}
+
+.btn-save{
+    background:#f3f4f6;
+    color:#111827;
+}
+
+.btn-save:hover{
+    background:#e5e7eb;
+}
+
+.btn-saved{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+/* DESCRIPTION */
+.description{
+    margin-top:25px;
+    line-height:1.8;
+    color:#444;
+}
+
+/* MAP */
+#map{
+    height:350px;
+    border-radius:15px;
+    margin-top:20px;
+}
+
+/* LANDLORD CARD */
+.landlord-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-top:25px;
+    background:#f9fafb;
+    padding:20px;
+    border-radius:16px;
+}
+
+.landlord-avatar{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#7c3aed;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .hero img{
+        height:260px;
+    }
+
+    .property-title h2{
+        font-size:24px;
+    }
+
+    .price{
+        font-size:24px;
+    }
+
+}
+
+</style>
+
+<div class="container">
+
+    <!-- BACK -->
+    <a href="{% url 'property_list' %}"
+       style="text-decoration:none;color:#6b7280;">
+
+        ← Back to Listings
+
+    </a>
+
+    <!-- IMAGE -->
+    <div class="hero">
+
+        <img src="{{ property.image.url }}">
+
+    </div>
+
+    <!-- DETAILS -->
+    <div class="card">
+
+        <!-- TITLE -->
+        <div class="property-title">
+
+            <div>
+
+                <h2>
+                    {{ property.title }}
+                </h2>
+
+                <p style="color:gray;">
+                    📍 {{ property.city }}
+                </p>
+
+            </div>
+
+            <div class="price">
+                ₦{{ property.price }}
+            </div>
+
+        </div>
+
+        <!-- INFO -->
+        <div class="property-info">
+
+            <div class="info-box">
+                <strong>🏠 Type</strong>
+                <p>{{ property.property_type }}</p>
+            </div>
+
+            <div class="info-box">
+                <strong>📍 Location</strong>
+                <p>{{ property.location }}</p>
+            </div>
+
+            <div class="info-box">
+                <strong>📅 Posted</strong>
+                <p>{{ property.created_at|date:"M d, Y" }}</p>
+            </div>
+
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="description">
+
+            <h3 style="margin-bottom:12px;">
+                Description
+            </h3>
+
+            <p>
+                {{ property.description }}
+            </p>
+
+        </div>
+
+        <!-- LANDLORD -->
+        <div class="landlord-card">
+
+            <div class="landlord-avatar">
+                {{ property.owner.username|first|upper }}
+            </div>
+
+            <div>
+
+                <h4>
+                    {{ property.owner.username }}
+                </h4>
+
+                <p style="color:gray;">
+                    Landlord
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+
+            {% if user.is_authenticated %}
+
+                {% if property.id in favorites %}
+
+                    <a href="{% url 'toggle_favorite' property.id %}"
+                       class="btn btn-saved">
+
+                        ❤️ Saved
+
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'toggle_favorite' property.id %}"
+                       class="btn btn-save">
+
+                        🤍 Save Property
+
+                    </a>
+
+                {% endif %}
+
+                <!-- CHAT BUTTON -->
+                {% if request.user != property.owner %}
+
+                <a href="{% url 'chat' property.owner.id property.id %}"
+                   class="btn btn-chat">
+
+                    💬 Chat Landlord
+
+                </a>
+
+                {% endif %}
+
+            {% else %}
+
+                <a href="{% url 'login' %}"
+                   class="btn btn-primary">
+
+                    Login To Chat
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- MAP -->
+    {% if property.latitude and property.longitude %}
+
+    <div class="card">
+
+        <h3>
+            📍 Property Location
+        </h3>
+
+        <div id="map"></div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+<!-- LEAFLET -->
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+{% if property.latitude and property.longitude %}
+
+<script>
+
+var map = L.map('map').setView(
+    [{{ property.latitude }}, {{ property.longitude }}],
+    13
+);
+
+L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        attribution:'© OpenStreetMap'
+    }
+).addTo(map);
+
+L.marker(
+    [{{ property.latitude }}, {{ property.longitude }}]
+)
+.addTo(map)
+.bindPopup("{{ property.title|escapejs }}")
+.openPopup();
+
+</script>
+
+{% endif %}
+
+{% endblock %}

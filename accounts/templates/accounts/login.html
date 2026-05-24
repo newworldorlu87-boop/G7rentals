@@ -1,0 +1,192 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: #f4f6f9;
+}
+
+/* WRAPPER */
+.login-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* LEFT IMAGE */
+.login-image {
+    flex: 1;
+    background: url('https://images.unsplash.com/photo-1507089947368-19c1da9775ae') center/cover no-repeat;
+}
+
+/* RIGHT */
+.login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* CARD */
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255,255,255,0.95);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* TITLE */
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.sub-text {
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+/* INPUT GROUP */
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 45px 12px 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #28a745;
+}
+
+/* SHOW PASSWORD BUTTON */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 13px;
+    color: #555;
+    user-select: none;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* ERROR */
+.error {
+    color: #ff4d4d;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+/* LINK */
+.login-card a {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #28a745;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .login-image {
+        display: none;
+    }
+
+    .login-container {
+        flex: 1;
+    }
+}
+</style>
+
+<div class="login-wrapper">
+
+    <!-- LEFT IMAGE -->
+    <div class="login-image"></div>
+
+    <!-- RIGHT FORM -->
+    <div class="login-container">
+        <div class="login-card">
+
+            <h2>Welcome Back</h2>
+            <div class="sub-text">Login to your account</div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="error">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- EMAIL -->
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Email address" required>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="input-group">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <span class="toggle-password" onclick="togglePassword()">Show</span>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <a href="{% url 'register' %}">Don't have an account? Register</a>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+function togglePassword() {
+    const input = document.getElementById("password");
+    const toggle = document.querySelector(".toggle-password");
+
+    if (input.type === "password") {
+        input.type = "text";
+        toggle.textContent = "Hide";
+    } else {
+        input.type = "password";
+        toggle.textContent = "Show";
+    }
+}
+</script>
+
+{% endblock %}

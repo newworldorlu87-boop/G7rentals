@@ -1,0 +1,69 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+.container{
+    max-width:500px;
+    margin:50px auto;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#28a745;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>📅 Book Property</h2>
+
+        <h4>{{ property.title }}</h4>
+
+        <p>{{ property.city }}</p>
+
+        <p><strong>₦{{ property.price }}</strong></p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>Start Date</label>
+            <input type="date" name="start_date" required>
+
+            <label>End Date</label>
+            <input type="date" name="end_date" required>
+
+            <button type="submit">
+                Confirm Booking
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

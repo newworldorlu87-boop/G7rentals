@@ -1,0 +1,139 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+/* FULL PAGE BACKGROUND */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url("https://images.unsplash.com/photo-1505691938895-1758d7feb511");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* DASHBOARD CONTAINER */
+.dashboard {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px 20px;
+    color: white;
+}
+
+/* HEADER TEXT */
+.dashboard h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.dashboard p {
+    text-align: center;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* GLASS CARD (modern look) */
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* TEXT */
+.card h3 {
+    margin-top: 0;
+}
+
+/* BUTTONS */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    margin-top: 10px;
+}
+
+.btn-primary { background: #007bff; }
+.btn-success { background: #28a745; }
+.btn-danger { background: #dc3545; }
+
+</style>
+
+<div class="dashboard">
+
+    <h2>Welcome, {{ request.user.username }}</h2>
+    <p>Your luxury rental dashboard</p>
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>👤 Profile</h3>
+            <p>Update your personal information.</p>
+            <a href="{% url 'profile' %}" class="btn btn-primary">Edit Profile</a>
+        </div>
+
+         
+
+        <div class="card">
+            <h3>👤 My Properties</h3>
+            <p>Update your personal information.</p>
+            <a href="{% url 'my_properties' %}" class="btn btn-primary">My Properties</a>
+        </div>
+
+        <div class="card">
+            <h3>👤 Property Listing</h3>
+            <p>Update your personal information.</p>
+            <a href="{% url 'property_list' %}" class="btn btn-primary">Property Listing</a>
+        </div>
+
+        <div class="card">
+            <h3>👤 Create Property</h3>
+            <p>Update your personal information.</p>
+            <a href="{% url 'create_property' %}" class="btn btn-primary">Create Property</a>
+        </div>
+        
+        <div class="card">
+            <h3>📩 Inbox</h3>
+
+            <a href="{% url 'inbox' %}" class="btn btn-primary">
+            View Messages
+            </a>
+        </div>
+        
+        <div class="card">
+            <h3>🔑 Reset Password</h3>
+            <p>Change your account password.</p>
+            <a href="{% url 'reset_request' %}" class="btn btn-success">Reset</a>
+        </div>
+
+        <div class="card">
+            <h3>🚪 Logout</h3>
+            <p>Securely sign out.</p>
+            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

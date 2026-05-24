@@ -1,0 +1,103 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:30px;
+}
+
+.chat-card{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.chat-card:hover{
+    transform:translateY(-4px);
+}
+
+.chat-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.btn{
+    display:inline-block;
+    padding:10px 15px;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+}
+
+.unread{
+    background:red;
+    color:white;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+</style>
+
+<div class="container">
+
+    <h2 style="margin-bottom:25px;">
+        💬 My Messages
+    </h2>
+
+    {% for convo in conversations %}
+
+    <div class="chat-card">
+
+        <div class="chat-top">
+
+            <div>
+                <h3>
+                    {{ convo.user.username }}
+                </h3>
+
+                <p>
+                    Property:
+                    {{ convo.property.title }}
+                </p>
+            </div>
+
+            {% if not convo.last_message.is_read and convo.last_message.receiver == request.user %}
+                <span class="unread">
+                    New
+                </span>
+            {% endif %}
+
+        </div>
+
+        <p style="margin-bottom:15px;color:gray;">
+            {{ convo.last_message.message|truncatechars:80 }}
+        </p>
+
+        <a href="{% url 'chat' convo.user.id convo.property.id %}"
+           class="btn">
+
+            Open Chat
+
+        </a>
+
+    </div>
+
+    {% empty %}
+
+    <p>No conversations yet.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
