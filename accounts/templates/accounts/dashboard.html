@@ -3,133 +3,332 @@
 {% block content %}
 
 <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 /* FULL PAGE BACKGROUND */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+body{
+    font-family:Arial,sans-serif;
+    overflow-x:hidden;
 
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                url("https://images.unsplash.com/photo-1505691938895-1758d7feb511");
+    background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    url("https://images.unsplash.com/photo-1505691938895-1758d7feb511");
 
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    min-height:100vh;
 }
 
 /* DASHBOARD CONTAINER */
-.dashboard {
-    max-width: 1000px;
-    margin: auto;
-    padding: 40px 20px;
-    color: white;
+.dashboard{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    padding:40px 20px;
+    color:white;
 }
 
-/* HEADER TEXT */
-.dashboard h2 {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 10px;
+/* HEADER */
+.dashboard-header{
+    text-align:center;
+    margin-bottom:40px;
 }
 
-.dashboard p {
-    text-align: center;
-    margin-bottom: 30px;
-    opacity: 0.9;
+.dashboard-header h2{
+    font-size:38px;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+.dashboard-header p{
+    font-size:16px;
+    opacity:0.9;
 }
 
 /* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
 }
 
-/* GLASS CARD (modern look) */
-.card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    transition: 0.3s;
+/* GLASS CARD */
+.card{
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    padding:25px;
+    border-radius:18px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,0.3);
+
+    transition:0.3s ease;
+
+    width:100%;
 }
 
-.card:hover {
-    transform: translateY(-5px);
+/* CARD HOVER */
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 12px 30px rgba(0,0,0,0.4);
 }
 
-/* TEXT */
-.card h3 {
-    margin-top: 0;
+/* CARD TEXT */
+.card h3{
+    margin-bottom:15px;
+    font-size:22px;
+}
+
+.card p{
+    font-size:14px;
+    line-height:1.6;
+    opacity:0.9;
+    margin-bottom:18px;
 }
 
 /* BUTTONS */
-.btn {
-    display: inline-block;
-    padding: 10px 15px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: white;
-    margin-top: 10px;
+.btn{
+    display:inline-block;
+    padding:12px 18px;
+    border-radius:10px;
+    text-decoration:none;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    transition:0.3s ease;
 }
 
-.btn-primary { background: #007bff; }
-.btn-success { background: #28a745; }
-.btn-danger { background: #dc3545; }
+.btn:hover{
+    opacity:0.9;
+    transform:scale(1.03);
+}
+
+/* BUTTON COLORS */
+.btn-primary{
+    background:#007bff;
+}
+
+.btn-success{
+    background:#28a745;
+}
+
+.btn-danger{
+    background:#dc3545;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media(max-width:768px){
+
+    .dashboard{
+        padding:25px 15px;
+    }
+
+    .dashboard-header h2{
+        font-size:28px;
+    }
+
+    .dashboard-header p{
+        font-size:14px;
+    }
+
+    .grid{
+        gap:18px;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    .card h3{
+        font-size:20px;
+    }
+
+    .btn{
+        width:100%;
+        text-align:center;
+    }
+
+}
+
+/* EXTRA SMALL DEVICES */
+@media(max-width:480px){
+
+    .dashboard-header h2{
+        font-size:24px;
+    }
+
+    .dashboard-header p{
+        font-size:13px;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+    .card h3{
+        font-size:18px;
+    }
+
+    .card p{
+        font-size:13px;
+    }
+
+}
 
 </style>
 
 <div class="dashboard">
 
-    <h2>Welcome, {{ request.user.username }}</h2>
-    <p>Your luxury rental dashboard</p>
+    <!-- HEADER -->
+    <div class="dashboard-header">
 
+        <h2>
+            Welcome, {{ request.user.username }}
+        </h2>
+
+        <p>
+            Your luxury rental dashboard
+        </p>
+
+    </div>
+
+    <!-- GRID -->
     <div class="grid">
 
+        <!-- PROFILE -->
         <div class="card">
+
             <h3>👤 Profile</h3>
-            <p>Update your personal information.</p>
-            <a href="{% url 'profile' %}" class="btn btn-primary">Edit Profile</a>
+
+            <p>
+                Update your personal information and manage your account settings.
+            </p>
+
+            <a href="{% url 'profile' %}"
+               class="btn btn-primary">
+
+               Edit Profile
+
+            </a>
+
         </div>
 
-         
-
+        <!-- MY PROPERTIES -->
         <div class="card">
-            <h3>👤 My Properties</h3>
-            <p>Update your personal information.</p>
-            <a href="{% url 'my_properties' %}" class="btn btn-primary">My Properties</a>
+
+            <h3>🏠 My Properties</h3>
+
+            <p>
+                View and manage all properties you have listed.
+            </p>
+
+            <a href="{% url 'my_properties' %}"
+               class="btn btn-primary">
+
+               My Properties
+
+            </a>
+
         </div>
 
+        <!-- PROPERTY LIST -->
         <div class="card">
-            <h3>👤 Property Listing</h3>
-            <p>Update your personal information.</p>
-            <a href="{% url 'property_list' %}" class="btn btn-primary">Property Listing</a>
+
+            <h3>📋 Property Listing</h3>
+
+            <p>
+                Explore available property listings on the platform.
+            </p>
+
+            <a href="{% url 'property_list' %}"
+               class="btn btn-primary">
+
+               Property Listing
+
+            </a>
+
         </div>
 
+        <!-- CREATE PROPERTY -->
         <div class="card">
-            <h3>👤 Create Property</h3>
-            <p>Update your personal information.</p>
-            <a href="{% url 'create_property' %}" class="btn btn-primary">Create Property</a>
+
+            <h3>➕ Create Property</h3>
+
+            <p>
+                Add a new property listing with images and details.
+            </p>
+
+            <a href="{% url 'create_property' %}"
+               class="btn btn-primary">
+
+               Create Property
+
+            </a>
+
         </div>
-        
+
+        <!-- INBOX -->
         <div class="card">
+
             <h3>📩 Inbox</h3>
 
-            <a href="{% url 'inbox' %}" class="btn btn-primary">
-            View Messages
+            <p>
+                Read and respond to messages from users and tenants.
+            </p>
+
+            <a href="{% url 'inbox' %}"
+               class="btn btn-primary">
+
+               View Messages
+
             </a>
-        </div>
-        
-        <div class="card">
-            <h3>🔑 Reset Password</h3>
-            <p>Change your account password.</p>
-            <a href="{% url 'reset_request' %}" class="btn btn-success">Reset</a>
+
         </div>
 
+        <!-- RESET PASSWORD -->
         <div class="card">
+
+            <h3>🔑 Reset Password</h3>
+
+            <p>
+                Secure your account by updating your password anytime.
+            </p>
+
+            <a href="{% url 'reset_request' %}"
+               class="btn btn-success">
+
+               Reset Password
+
+            </a>
+
+        </div>
+
+        <!-- LOGOUT -->
+        <div class="card">
+
             <h3>🚪 Logout</h3>
-            <p>Securely sign out.</p>
-            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+
+            <p>
+                Securely sign out of your account and end your session.
+            </p>
+
+            <a href="{% url 'logout' %}"
+               class="btn btn-danger">
+
+               Logout
+
+            </a>
+
         </div>
 
     </div>

@@ -3,6 +3,7 @@
 {% block content %}
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -10,14 +11,16 @@
 }
 
 body{
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#f4f6f9;
+    overflow-x:hidden;
 }
 
 /* LAYOUT */
 .layout{
     display:flex;
     min-height:100vh;
+    width:100%;
 }
 
 /* SIDEBAR */
@@ -26,9 +29,13 @@ body{
     background:linear-gradient(180deg,#111827,#1f2937);
     color:white;
     position:fixed;
+    left:0;
+    top:0;
     height:100%;
     padding:25px 20px;
     overflow-y:auto;
+    z-index:1000;
+    transition:0.3s ease;
     box-shadow:4px 0 20px rgba(0,0,0,0.15);
 }
 
@@ -59,15 +66,27 @@ body{
     transform:translateX(5px);
 }
 
-/* TOGGLE BUTTON */
-.toggle-btn{
+/* MOBILE MENU BUTTON */
+.menu-btn{
+    display:none;
+    position:fixed;
+    top:15px;
+    left:15px;
+    z-index:1200;
+    background:#7c3aed;
+    color:white;
+    border:none;
+    padding:12px 14px;
+    border-radius:10px;
     cursor:pointer;
+    font-size:18px;
 }
 
 /* MAIN */
 .main{
     margin-left:260px;
     width:100%;
+    transition:0.3s ease;
 }
 
 /* NAVBAR */
@@ -85,9 +104,10 @@ body{
 
 .navbar h3{
     color:#111827;
-    font-size:22px;
+    font-size:24px;
 }
 
+/* USER BOX */
 .user-box{
     display:flex;
     align-items:center;
@@ -123,13 +143,13 @@ body{
 .stat-box{
     background:white;
     padding:25px;
-    border-radius:14px;
+    border-radius:16px;
     box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
 .stat-box h3{
     color:#7c3aed;
-    font-size:30px;
+    font-size:32px;
     margin-bottom:8px;
 }
 
@@ -137,7 +157,7 @@ body{
     color:#6b7280;
 }
 
-/* GRID */
+/* ACTION GRID */
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -145,13 +165,13 @@ body{
     margin-bottom:30px;
 }
 
-/* ACTION CARDS */
+/* CARDS */
 .card{
     background:white;
     padding:25px;
-    border-radius:14px;
+    border-radius:16px;
     box-shadow:0 5px 15px rgba(0,0,0,0.05);
-    transition:0.3s;
+    transition:0.3s ease;
 }
 
 .card:hover{
@@ -165,12 +185,17 @@ body{
 /* BUTTONS */
 .btn{
     display:inline-block;
-    padding:10px 14px;
+    padding:10px 15px;
     border-radius:8px;
     text-decoration:none;
     color:white;
     font-size:14px;
     border:none;
+    transition:0.3s ease;
+}
+
+.btn:hover{
+    opacity:0.9;
 }
 
 .btn-primary{
@@ -189,7 +214,7 @@ body{
 .section{
     background:white;
     padding:25px;
-    border-radius:14px;
+    border-radius:16px;
     margin-bottom:30px;
     box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
@@ -201,11 +226,13 @@ body{
 
 /* TABLE */
 .table-wrapper{
+    width:100%;
     overflow-x:auto;
 }
 
 table{
     width:100%;
+    min-width:800px;
     border-collapse:collapse;
 }
 
@@ -220,7 +247,7 @@ table td{
     border-bottom:1px solid #eee;
 }
 
-/* PROPERTY CARDS */
+/* PROPERTIES */
 .properties{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -229,10 +256,10 @@ table td{
 
 .property-card{
     background:white;
-    border-radius:14px;
+    border-radius:16px;
     overflow:hidden;
     box-shadow:0 5px 15px rgba(0,0,0,0.05);
-    transition:0.3s;
+    transition:0.3s ease;
 }
 
 .property-card:hover{
@@ -241,7 +268,7 @@ table td{
 
 .property-card img{
     width:100%;
-    height:180px;
+    height:200px;
     object-fit:cover;
 }
 
@@ -253,7 +280,7 @@ table td{
     margin-bottom:10px;
 }
 
-/* BOOKING SECTION TOGGLE */
+/* BOOKING SECTION */
 #bookings-content{
     display:none;
 }
@@ -261,39 +288,100 @@ table td{
 /* MOBILE */
 @media(max-width:900px){
 
+    .menu-btn{
+        display:block;
+    }
+
     .sidebar{
-        width:80px;
-        overflow:hidden;
+        left:-260px;
     }
 
-    .sidebar h2{
-        font-size:16px;
-    }
-
-    .sidebar a{
-        text-align:center;
-        padding:14px 5px;
-        justify-content:center;
+    .sidebar.active{
+        left:0;
     }
 
     .main{
-        margin-left:80px;
+        margin-left:0;
+        width:100%;
     }
 
     .navbar{
-        padding:15px;
+        padding:15px 20px 15px 70px;
+    }
+
+    .navbar h3{
+        font-size:20px;
     }
 
     .content{
         padding:15px;
     }
+
+    .user-box div p{
+        display:none;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .properties{
+        grid-template-columns:1fr;
+    }
+
+    .card,
+    .section,
+    .stat-box{
+        padding:20px;
+    }
+
+    .btn{
+        width:100%;
+        text-align:center;
+        margin-top:10px;
+    }
 }
+
+/* EXTRA SMALL */
+@media(max-width:500px){
+
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .navbar h3{
+        font-size:18px;
+    }
+
+    .avatar{
+        width:40px;
+        height:40px;
+        font-size:16px;
+    }
+
+    .stat-box h3{
+        font-size:26px;
+    }
+
+}
+
 </style>
+
+<!-- MOBILE BUTTON -->
+<button class="menu-btn" onclick="toggleSidebar()">
+    ☰
+</button>
 
 <div class="layout">
 
     <!-- SIDEBAR -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
 
         <h2>🏠 Landlord</h2>
 
@@ -308,33 +396,32 @@ table td{
         <a href="{% url 'property_list' %}">
             🏘 Listings
         </a>
-<a href="{% url 'conversations' %}">
-    💬 Tenant Chats
 
-    {% if unread_messages > 0 %}
-        <span style="
-            background:red;
-            color:white;
-            padding:4px 8px;
-            border-radius:50px;
-            font-size:12px;
-            margin-left:auto;
-        ">
-            {{ unread_messages }}
-        </span>
-    {% endif %}
-</a>
-        <!-- TOGGLE BOOKINGS -->
+        <a href="{% url 'conversations' %}">
+            💬 Tenant Chats
+
+            {% if unread_messages > 0 %}
+                <span style="
+                    background:red;
+                    color:white;
+                    padding:4px 8px;
+                    border-radius:50px;
+                    font-size:12px;
+                    margin-left:auto;
+                ">
+                    {{ unread_messages }}
+                </span>
+            {% endif %}
+        </a>
+
         <a href="javascript:void(0)"
-           class="toggle-btn"
            onclick="toggleBookings()">
             📅 Property Bookings
         </a>
 
         <a href="#properties-section">
-    🏡 My Properties
-</a>
-
+            🏡 My Properties
+        </a>
 
         <a href="{% url 'profile' %}">
             👤 Profile
@@ -437,11 +524,9 @@ table td{
             </div>
 
             <!-- BOOKINGS -->
-            <div class="section" id="bookings-section">
+            <div class="section">
 
-                <h2>
-                    📅 Property Bookings
-                </h2>
+                <h2>📅 Property Bookings</h2>
 
                 <div id="bookings-content">
 
@@ -462,108 +547,100 @@ table td{
                             <tr>
 
                                 <td>{{ booking.user.email }}</td>
-
                                 <td>{{ booking.property.title }}</td>
-
                                 <td>{{ booking.start_date }}</td>
-
                                 <td>{{ booking.end_date }}</td>
 
-                                <!-- STATUS -->
                                 <td>
 
                                     {% if booking.status == 'Pending' %}
 
-                                        <span style="
-                                            background:#fff3cd;
-                                            color:#856404;
-                                            padding:6px 12px;
-                                            border-radius:20px;
-                                            font-size:13px;
-                                            font-weight:bold;
-                                        ">
-                                            Pending
-                                        </span>
+                                    <span style="
+                                        background:#fff3cd;
+                                        color:#856404;
+                                        padding:6px 12px;
+                                        border-radius:20px;
+                                        font-size:13px;
+                                        font-weight:bold;
+                                    ">
+                                        Pending
+                                    </span>
 
                                     {% elif booking.status == 'Approved' %}
 
-                                        <span style="
-                                            background:#d4edda;
-                                            color:#155724;
-                                            padding:6px 12px;
-                                            border-radius:20px;
-                                            font-size:13px;
-                                            font-weight:bold;
-                                        ">
-                                            Approved
-                                        </span>
+                                    <span style="
+                                        background:#d4edda;
+                                        color:#155724;
+                                        padding:6px 12px;
+                                        border-radius:20px;
+                                        font-size:13px;
+                                        font-weight:bold;
+                                    ">
+                                        Approved
+                                    </span>
 
                                     {% elif booking.status == 'Rejected' %}
 
-                                        <span style="
-                                            background:#f8d7da;
-                                            color:#721c24;
-                                            padding:6px 12px;
-                                            border-radius:20px;
-                                            font-size:13px;
-                                            font-weight:bold;
-                                        ">
-                                            Rejected
-                                        </span>
+                                    <span style="
+                                        background:#f8d7da;
+                                        color:#721c24;
+                                        padding:6px 12px;
+                                        border-radius:20px;
+                                        font-size:13px;
+                                        font-weight:bold;
+                                    ">
+                                        Rejected
+                                    </span>
 
                                     {% endif %}
 
                                 </td>
 
-                                <!-- ACTIONS -->
-<td>
+                                <td>
 
-    {% if booking.status == 'Pending' %}
+                                    {% if booking.status == 'Pending' %}
 
-        <a href="{% url 'accept_booking' booking.id %}"
-           class="btn btn-success">
-            ✔ Accept
-        </a>
+                                    <a href="{% url 'accept_booking' booking.id %}"
+                                       class="btn btn-success">
+                                        ✔ Accept
+                                    </a>
 
-        <a href="{% url 'reject_booking' booking.id %}"
-           class="btn btn-danger">
-            ✖ Reject
-        </a>
+                                    <a href="{% url 'reject_booking' booking.id %}"
+                                       class="btn btn-danger">
+                                        ✖ Reject
+                                    </a>
 
-    {% elif booking.status == 'Approved' %}
+                                    {% elif booking.status == 'Approved' %}
 
-        <span style="
-            color:green;
-            font-weight:bold;
-            display:block;
-            margin-bottom:10px;
-        ">
-            Booking Approved
-        </span>
+                                    <span style="
+                                        color:green;
+                                        font-weight:bold;
+                                        display:block;
+                                        margin-bottom:10px;
+                                    ">
+                                        Booking Approved
+                                    </span>
 
-    {% elif booking.status == 'Rejected' %}
+                                    {% elif booking.status == 'Rejected' %}
 
-        <span style="
-            color:red;
-            font-weight:bold;
-            display:block;
-            margin-bottom:10px;
-        ">
-            Booking Rejected
-        </span>
+                                    <span style="
+                                        color:red;
+                                        font-weight:bold;
+                                        display:block;
+                                        margin-bottom:10px;
+                                    ">
+                                        Booking Rejected
+                                    </span>
 
-    {% endif %}
+                                    {% endif %}
 
-    <!-- CHAT BUTTON -->
-    <a href="{% url 'chat' booking.user.id booking.property.id %}"
-       class="btn btn-primary"
-       style="margin-top:10px;display:inline-block;">
+                                    <a href="{% url 'chat' booking.user.id booking.property.id %}"
+                                       class="btn btn-primary"
+                                       style="margin-top:10px;display:inline-block;">
+                                        💬 Open Chat
+                                    </a>
 
-       💬 Open Chat
-
-    </a>
-
-</td>
+                                </td>
 
                             </tr>
 
@@ -638,7 +715,6 @@ table td{
 
 </div>
 
-<!-- TOGGLE SCRIPT -->
 <script>
 
 function toggleBookings(){
@@ -655,6 +731,14 @@ function toggleBookings(){
 
         content.style.display = "none";
     }
+}
+
+function toggleSidebar(){
+
+    document
+    .getElementById("sidebar")
+    .classList
+    .toggle("active");
 }
 
 </script>

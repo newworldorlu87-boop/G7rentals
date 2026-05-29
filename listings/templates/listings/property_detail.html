@@ -4,107 +4,255 @@
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-    background:#f4f6f9;
-    font-family:Arial,sans-serif;
-}
-
-/* CONTAINER */
-.container{
-    max-width:1000px;
-    margin:auto;
-    padding:20px;
-}
-
-/* HERO IMAGE */
-.hero img{
-    width:100%;
-    height:420px;
-    object-fit:cover;
-    border-radius:18px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.12);
-}
-
-/* CARD */
-.card{
-    background:white;
-    margin-top:25px;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.08);
-}
-
-/* TITLE */
-.property-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:10px;
-}
-
-.property-title h2{
-    font-size:32px;
+    background:#f5f7fb;
+    font-family:'Inter',sans-serif;
     color:#111827;
 }
 
-/* PRICE */
-.price{
-    color:#16a34a;
-    font-size:30px;
-    font-weight:bold;
-    margin-top:10px;
+/* PAGE */
+.page{
+    max-width:1250px;
+    margin:auto;
+    padding:30px 20px 60px;
 }
 
-/* INFO */
-.property-info{
-    margin-top:20px;
+/* BACK BUTTON */
+.back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:25px;
+    text-decoration:none;
+    color:#6b7280;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.back-link:hover{
+    color:#7c3aed;
+    transform:translateX(-3px);
+}
+
+/* HERO IMAGE */
+.hero{
+    position:relative;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,0.12);
+}
+
+.hero img{
+    width:100%;
+    height:520px;
+    object-fit:cover;
+    display:block;
+}
+
+.hero-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,0.7),
+        rgba(0,0,0,0.15),
+        transparent
+    );
+}
+
+.hero-content{
+    position:absolute;
+    bottom:30px;
+    left:30px;
+    right:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.hero-text h1{
+    color:white;
+    font-size:42px;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+.hero-text p{
+    color:#e5e7eb;
+    font-size:16px;
+}
+
+.price-box{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.2);
+    color:white;
+    padding:18px 24px;
+    border-radius:20px;
+    font-size:34px;
+    font-weight:700;
+}
+
+/* MAIN GRID */
+.details-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
+    grid-template-columns:2fr 1fr;
+    gap:28px;
+    margin-top:30px;
+}
+
+/* CARDS */
+.card{
+    background:white;
+    border-radius:24px;
+    padding:28px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.06);
+}
+
+/* SECTION TITLE */
+.section-title{
+    margin-bottom:20px;
+}
+
+.section-title h3{
+    font-size:22px;
+    margin-bottom:6px;
+}
+
+.section-title p{
+    color:#6b7280;
+    font-size:14px;
+}
+
+/* INFO GRID */
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
 }
 
 .info-box{
     background:#f9fafb;
-    padding:18px;
-    border-radius:14px;
+    padding:22px;
+    border-radius:18px;
+    border:1px solid #eef2f7;
+    transition:0.3s;
 }
 
-/* BUTTONS */
-.actions{
-    margin-top:25px;
+.info-box:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.04);
+}
+
+.info-label{
+    font-size:13px;
+    color:#6b7280;
+    margin-bottom:8px;
+}
+
+.info-value{
+    font-weight:600;
+    color:#111827;
+    font-size:15px;
+}
+
+/* DESCRIPTION */
+.description{
+    line-height:1.9;
+    color:#4b5563;
+    font-size:15px;
+}
+
+/* SIDEBAR */
+.sidebar{
     display:flex;
-    gap:15px;
-    flex-wrap:wrap;
+    flex-direction:column;
+    gap:25px;
+}
+
+/* LANDLORD */
+.landlord{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.landlord-avatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7c3aed,#5b21b6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:28px;
+    font-weight:700;
+    flex-shrink:0;
+}
+
+.landlord-info h4{
+    margin-bottom:5px;
+    font-size:18px;
+}
+
+.landlord-info p{
+    color:#6b7280;
+    font-size:14px;
+}
+
+/* ACTIONS */
+.actions{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-top:25px;
 }
 
 .btn{
-    padding:12px 18px;
-    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:100%;
+    padding:15px 18px;
+    border-radius:16px;
     text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
     border:none;
     cursor:pointer;
-    transition:0.3s;
-    font-size:14px;
-    font-weight:600;
+    font-size:15px;
 }
 
 .btn-primary{
-    background:#2563eb;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
     color:white;
+    box-shadow:0 10px 25px rgba(37,99,235,0.25);
 }
 
 .btn-primary:hover{
-    background:#1d4ed8;
+    transform:translateY(-3px);
 }
 
 .btn-chat{
-    background:#7c3aed;
+    background:linear-gradient(135deg,#7c3aed,#5b21b6);
     color:white;
+    box-shadow:0 10px 25px rgba(124,58,237,0.25);
 }
 
 .btn-chat:hover{
-    background:#5b21b6;
+    transform:translateY(-3px);
 }
 
 .btn-save{
@@ -121,224 +269,380 @@ body{
     color:#dc2626;
 }
 
-/* DESCRIPTION */
-.description{
-    margin-top:25px;
-    line-height:1.8;
-    color:#444;
-}
-
 /* MAP */
 #map{
-    height:350px;
-    border-radius:15px;
+    height:380px;
+    border-radius:22px;
+    overflow:hidden;
     margin-top:20px;
 }
 
-/* LANDLORD CARD */
-.landlord-card{
+/* PROPERTY HIGHLIGHTS */
+.highlights{
     display:flex;
-    align-items:center;
-    gap:15px;
-    margin-top:25px;
-    background:#f9fafb;
-    padding:20px;
-    border-radius:16px;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:20px;
 }
 
-.landlord-avatar{
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    background:#7c3aed;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:24px;
-    font-weight:bold;
+.highlight{
+    background:#f3f4f6;
+    padding:10px 14px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:500;
+    color:#374151;
 }
 
-/* MOBILE */
-@media(max-width:768px){
+/* RESPONSIVE */
+@media(max-width:950px){
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
 
     .hero img{
-        height:260px;
+        height:380px;
     }
 
-    .property-title h2{
+    .hero-text h1{
+        font-size:30px;
+    }
+
+    .price-box{
+        font-size:28px;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .page{
+        padding:15px 15px 40px;
+    }
+
+    .hero img{
+        height:300px;
+    }
+
+    .hero-content{
+        left:20px;
+        right:20px;
+        bottom:20px;
+    }
+
+    .hero-text h1{
         font-size:24px;
     }
 
-    .price{
+    .price-box{
+        width:100%;
+        text-align:center;
         font-size:24px;
+    }
+
+    .card{
+        padding:22px;
+        border-radius:20px;
     }
 
 }
 
 </style>
 
-<div class="container">
+<div class="page">
 
     <!-- BACK -->
     <a href="{% url 'property_list' %}"
-       style="text-decoration:none;color:#6b7280;">
+       class="back-link">
 
         ← Back to Listings
 
     </a>
 
-    <!-- IMAGE -->
+    <!-- HERO -->
     <div class="hero">
 
         <img src="{{ property.image.url }}">
 
-    </div>
+        <div class="hero-overlay"></div>
 
-    <!-- DETAILS -->
-    <div class="card">
+        <div class="hero-content">
 
-        <!-- TITLE -->
-        <div class="property-title">
+            <div class="hero-text">
 
-            <div>
-
-                <h2>
+                <h1>
                     {{ property.title }}
-                </h2>
+                </h1>
 
-                <p style="color:gray;">
+                <p>
                     📍 {{ property.city }}
                 </p>
 
             </div>
 
-            <div class="price">
+            <div class="price-box">
                 ₦{{ property.price }}
             </div>
 
         </div>
 
-        <!-- INFO -->
-        <div class="property-info">
+    </div>
 
-            <div class="info-box">
-                <strong>🏠 Type</strong>
-                <p>{{ property.property_type }}</p>
+    <!-- MAIN -->
+    <div class="details-grid">
+
+        <!-- LEFT -->
+        <div>
+
+            <!-- PROPERTY DETAILS -->
+            <div class="card">
+
+                <div class="section-title">
+
+                    <h3>Property Details</h3>
+
+                    <p>
+                        Overview and specifications of this property
+                    </p>
+
+                </div>
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Property Type
+                        </div>
+
+                        <div class="info-value">
+                            🏠 {{ property.property_type }}
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Location
+                        </div>
+
+                        <div class="info-value">
+                            📍 {{ property.location }}
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Listed On
+                        </div>
+
+                        <div class="info-value">
+                            📅 {{ property.created_at|date:"M d, Y" }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="highlights">
+
+                    <div class="highlight">
+                        Verified Listing
+                    </div>
+
+                    <div class="highlight">
+                        Secure Rental
+                    </div>
+
+                    <div class="highlight">
+                        Direct Chat Available
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="info-box">
-                <strong>📍 Location</strong>
-                <p>{{ property.location }}</p>
-            </div>
+            <!-- DESCRIPTION -->
+            <div class="card" style="margin-top:25px;">
 
-            <div class="info-box">
-                <strong>📅 Posted</strong>
-                <p>{{ property.created_at|date:"M d, Y" }}</p>
-            </div>
+                <div class="section-title">
 
-        </div>
+                    <h3>Description</h3>
 
-        <!-- DESCRIPTION -->
-        <div class="description">
+                    <p>
+                        Learn more about this property
+                    </p>
 
-            <h3 style="margin-bottom:12px;">
-                Description
-            </h3>
+                </div>
 
-            <p>
-                {{ property.description }}
-            </p>
+                <div class="description">
 
-        </div>
+                    {{ property.description }}
 
-        <!-- LANDLORD -->
-        <div class="landlord-card">
-
-            <div class="landlord-avatar">
-                {{ property.owner.username|first|upper }}
-            </div>
-
-            <div>
-
-                <h4>
-                    {{ property.owner.username }}
-                </h4>
-
-                <p style="color:gray;">
-                    Landlord
-                </p>
+                </div>
 
             </div>
 
-        </div>
+            <!-- MAP -->
+            {% if property.latitude and property.longitude %}
 
-        <!-- ACTIONS -->
-        <div class="actions">
+            <div class="card" style="margin-top:25px;">
 
-            {% if user.is_authenticated %}
+                <div class="section-title">
 
-                {% if property.id in favorites %}
+                    <h3>Property Location</h3>
 
-                    <a href="{% url 'toggle_favorite' property.id %}"
-                       class="btn btn-saved">
+                    <p>
+                        View exact location on the map
+                    </p>
 
-                        ❤️ Saved
+                </div>
 
-                    </a>
+                <div id="map"></div>
 
-                {% else %}
-
-                    <a href="{% url 'toggle_favorite' property.id %}"
-                       class="btn btn-save">
-
-                        🤍 Save Property
-
-                    </a>
-
-                {% endif %}
-
-                <!-- CHAT BUTTON -->
-                {% if request.user != property.owner %}
-
-                <a href="{% url 'chat' property.owner.id property.id %}"
-                   class="btn btn-chat">
-
-                    💬 Chat Landlord
-
-                </a>
-
-                {% endif %}
-
-            {% else %}
-
-                <a href="{% url 'login' %}"
-                   class="btn btn-primary">
-
-                    Login To Chat
-
-                </a>
+            </div>
 
             {% endif %}
 
         </div>
 
+        <!-- RIGHT -->
+        <div class="sidebar">
+
+            <!-- LANDLORD -->
+            <div class="card">
+
+                <div class="section-title">
+
+                    <h3>Listed By</h3>
+
+                    <p>
+                        Property owner information
+                    </p>
+
+                </div>
+
+                <div class="landlord">
+
+                    <div class="landlord-avatar">
+                        {{ property.owner.username|first|upper }}
+                    </div>
+
+                    <div class="landlord-info">
+
+                        <h4>
+                            {{ property.owner.username }}
+                        </h4>
+
+                        <p>
+                            Verified Landlord
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="actions">
+
+                    {% if user.is_authenticated %}
+
+                        {% if property.id in favorites %}
+
+                            <a href="{% url 'toggle_favorite' property.id %}"
+                               class="btn btn-saved">
+
+                                ❤️ Saved Property
+
+                            </a>
+
+                        {% else %}
+
+                            <a href="{% url 'toggle_favorite' property.id %}"
+                               class="btn btn-save">
+
+                                🤍 Save Property
+
+                            </a>
+
+                        {% endif %}
+
+                        {% if request.user != property.owner %}
+
+                        <a href="{% url 'chat' property.owner.id property.id %}"
+                           class="btn btn-chat">
+
+                            💬 Chat Landlord
+
+                        </a>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <a href="{% url 'login' %}"
+                           class="btn btn-primary">
+
+                            🔐 Login To Continue
+
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- QUICK INFO -->
+            <div class="card">
+
+                <div class="section-title">
+
+                    <h3>Quick Info</h3>
+
+                    <p>
+                        Important details
+                    </p>
+
+                </div>
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Status
+                        </div>
+
+                        <div class="info-value">
+                            ✅ Available
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Category
+                        </div>
+
+                        <div class="info-value">
+                            {{ property.property_type }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-
-    <!-- MAP -->
-    {% if property.latitude and property.longitude %}
-
-    <div class="card">
-
-        <h3>
-            📍 Property Location
-        </h3>
-
-        <div id="map"></div>
-
-    </div>
-
-    {% endif %}
 
 </div>
 

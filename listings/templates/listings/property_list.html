@@ -4,6 +4,8 @@
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 *{
     margin:0;
     padding:0;
@@ -11,15 +13,16 @@
 }
 
 body{
-    background:#f3f4f6;
-    font-family:Arial, sans-serif;
+    background:#f5f7fb;
+    font-family:'Inter',sans-serif;
+    color:#111827;
 }
 
 /* PAGE */
-.container{
-    max-width:1200px;
+.page{
+    max-width:1350px;
     margin:auto;
-    padding:30px 20px;
+    padding:35px 20px 60px;
 }
 
 /* HEADER */
@@ -28,70 +31,120 @@ body{
     justify-content:space-between;
     align-items:center;
     flex-wrap:wrap;
-    gap:15px;
-    margin-bottom:30px;
+    gap:20px;
+    margin-bottom:35px;
 }
 
-.header h2{
-    font-size:32px;
+.header-left h2{
+    font-size:38px;
+    font-weight:700;
+    margin-bottom:8px;
     color:#111827;
 }
 
-/* SEARCH BAR */
-.search-box{
-    background:white;
-    padding:10px;
-    border-radius:14px;
+.header-left p{
+    color:#6b7280;
+    font-size:15px;
+}
+
+/* ADD BUTTON */
+.add-btn{
     display:flex;
     align-items:center;
     gap:10px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.06);
-    margin-bottom:30px;
+    background:linear-gradient(135deg,#16a34a,#15803d);
+    color:white;
+    text-decoration:none;
+    padding:14px 22px;
+    border-radius:16px;
+    font-weight:600;
+    transition:0.3s;
+    box-shadow:0 10px 25px rgba(22,163,74,0.25);
 }
 
-.search-box input{
+.add-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* SEARCH */
+.search-wrapper{
+    background:white;
+    padding:14px;
+    border-radius:24px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.06);
+    margin-bottom:40px;
+}
+
+.search-box{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.search-input{
+    flex:1;
+    min-width:250px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#f9fafb;
+    border:1px solid #eef2f7;
+    border-radius:18px;
+    padding:0 18px;
+}
+
+.search-input input{
     width:100%;
     border:none;
     outline:none;
+    background:transparent;
+    padding:16px 0;
     font-size:15px;
-    padding:12px;
+    color:#111827;
 }
 
-.search-box button{
-    background:#4f46e5;
+.search-input input::placeholder{
+    color:#9ca3af;
+}
+
+.search-btn{
+    background:linear-gradient(135deg,#4f46e5,#4338ca);
     color:white;
     border:none;
-    padding:12px 18px;
-    border-radius:10px;
+    padding:16px 24px;
+    border-radius:16px;
     cursor:pointer;
-    font-weight:bold;
+    font-weight:600;
     transition:0.3s;
+    font-size:15px;
+    box-shadow:0 10px 25px rgba(79,70,229,0.25);
 }
 
-.search-box button:hover{
-    background:#4338ca;
+.search-btn:hover{
+    transform:translateY(-2px);
 }
 
 /* GRID */
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:25px;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+    gap:28px;
 }
 
 /* CARD */
 .card{
     background:white;
-    border-radius:20px;
+    border-radius:28px;
     overflow:hidden;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-    transition:0.35s ease;
+    box-shadow:0 12px 35px rgba(0,0,0,0.06);
+    transition:0.4s ease;
     position:relative;
 }
 
 .card:hover{
     transform:translateY(-8px);
-    box-shadow:0 15px 35px rgba(0,0,0,0.12);
+    box-shadow:0 20px 50px rgba(0,0,0,0.12);
 }
 
 /* IMAGE */
@@ -102,43 +155,71 @@ body{
 
 .card-image img{
     width:100%;
-    height:220px;
+    height:240px;
     object-fit:cover;
-    transition:0.4s;
+    transition:0.5s;
 }
 
 .card:hover .card-image img{
-    transform:scale(1.05);
+    transform:scale(1.06);
 }
 
-/* PRICE TAG */
+/* OVERLAY */
+.image-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,0.5),
+        transparent
+    );
+}
+
+/* PRICE */
 .price-tag{
     position:absolute;
-    top:15px;
-    right:15px;
-    background:#16a34a;
+    top:18px;
+    right:18px;
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.25);
+    color:white;
+    padding:10px 16px;
+    border-radius:30px;
+    font-size:15px;
+    font-weight:700;
+}
+
+/* PREMIUM BADGE */
+.badge{
+    position:absolute;
+    left:18px;
+    top:18px;
+    background:#111827;
     color:white;
     padding:8px 14px;
     border-radius:30px;
-    font-size:14px;
-    font-weight:bold;
-    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    font-size:12px;
+    font-weight:600;
 }
 
 /* BODY */
 .card-body{
-    padding:22px;
+    padding:24px;
 }
 
 .card-body h3{
+    font-size:24px;
+    margin-bottom:12px;
     color:#111827;
-    margin-bottom:10px;
-    font-size:22px;
 }
 
 .location{
     color:#6b7280;
-    margin-bottom:15px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:8px;
     font-size:15px;
 }
 
@@ -146,47 +227,66 @@ body{
 .property-info{
     display:flex;
     justify-content:space-between;
-    margin-bottom:20px;
-    color:#6b7280;
+    align-items:center;
+    gap:12px;
+    margin-bottom:24px;
+    padding:14px;
+    border-radius:16px;
+    background:#f9fafb;
+    border:1px solid #eef2f7;
+}
+
+.info-item{
+    text-align:center;
+    flex:1;
+}
+
+.info-item strong{
+    display:block;
+    margin-top:5px;
+    color:#111827;
     font-size:14px;
 }
 
-/* BUTTONS */
+/* ACTIONS */
 .actions{
     display:flex;
-    gap:10px;
+    gap:12px;
     flex-wrap:wrap;
 }
 
 .btn{
     flex:1;
+    min-width:100px;
     text-align:center;
-    padding:11px 14px;
-    border-radius:10px;
+    padding:13px 16px;
+    border-radius:14px;
     text-decoration:none;
     font-size:14px;
-    font-weight:bold;
+    font-weight:600;
     transition:0.3s;
 }
 
 /* VIEW */
 .btn-view{
-    background:#2563eb;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
     color:white;
+    box-shadow:0 10px 20px rgba(37,99,235,0.2);
 }
 
 .btn-view:hover{
-    background:#1d4ed8;
+    transform:translateY(-2px);
 }
 
 /* BOOK */
 .btn-book{
-    background:#7c3aed;
+    background:linear-gradient(135deg,#7c3aed,#5b21b6);
     color:white;
+    box-shadow:0 10px 20px rgba(124,58,237,0.2);
 }
 
 .btn-book:hover{
-    background:#6d28d9;
+    transform:translateY(-2px);
 }
 
 /* SAVE */
@@ -209,80 +309,131 @@ body{
     background:#fecaca;
 }
 
-/* ADD PROPERTY BUTTON */
-.add-btn{
-    background:#16a34a;
-    color:white;
-    padding:12px 18px;
-    border-radius:12px;
-    text-decoration:none;
-    font-weight:bold;
-    transition:0.3s;
-}
-
-.add-btn:hover{
-    background:#15803d;
-}
-
 /* EMPTY */
 .empty{
     background:white;
-    padding:50px;
+    padding:70px 30px;
     text-align:center;
-    border-radius:20px;
-    color:#6b7280;
-    box-shadow:0 5px 15px rgba(0,0,0,0.06);
+    border-radius:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.05);
+    grid-column:1/-1;
 }
 
-/* MOBILE */
+.empty-icon{
+    font-size:70px;
+    margin-bottom:20px;
+}
+
+.empty h3{
+    font-size:28px;
+    margin-bottom:10px;
+    color:#111827;
+}
+
+.empty p{
+    color:#6b7280;
+    max-width:500px;
+    margin:auto;
+    line-height:1.7;
+}
+
+/* RESPONSIVE */
 @media(max-width:768px){
+
+    .page{
+        padding:20px 15px 50px;
+    }
 
     .header{
         flex-direction:column;
         align-items:flex-start;
     }
 
-    .header h2{
-        font-size:26px;
+    .header-left h2{
+        font-size:30px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
     }
 
     .actions{
         flex-direction:column;
     }
+
+    .search-box{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .search-btn{
+        width:100%;
+    }
+
 }
 
 </style>
 
-<div class="container">
+<div class="page">
 
     <!-- HEADER -->
     <div class="header">
 
-        <h2>🏠 Available Properties</h2>
+        <div class="header-left">
+
+            <h2>
+                Discover Properties
+            </h2>
+
+            <p>
+                Browse apartments, houses, and premium rentals near you
+            </p>
+
+        </div>
 
         {% if user.is_authenticated and user.user_type == 'landlord' %}
-        <a href="{% url 'create_property' %}" class="add-btn">
+
+        <a href="{% url 'create_property' %}"
+           class="add-btn">
+
             ➕ Add Property
+
         </a>
+
         {% endif %}
 
     </div>
 
     <!-- SEARCH -->
-    <form method="GET"
-          action="{% url 'property_list' %}"
-          class="search-box">
+    <div class="search-wrapper">
 
-        <input type="text"
-               name="q"
-               placeholder="Search by city, location, property type..."
-               value="{{ request.GET.q }}">
+        <form method="GET"
+              action="{% url 'property_list' %}"
+              class="search-box">
 
-        <button type="submit">
-            🔍 Search
-        </button>
+            <div class="search-input">
 
-    </form>
+                <span>
+                    🔍
+                </span>
+
+                <input type="text"
+                       name="q"
+                       placeholder="Search by city, location, property type..."
+                       value="{{ request.GET.q }}">
+
+            </div>
+
+            <button type="submit"
+                    class="search-btn">
+
+                Search Properties
+
+            </button>
+
+        </form>
+
+    </div>
 
     <!-- GRID -->
     <div class="grid">
@@ -295,8 +446,16 @@ body{
             <div class="card-image">
 
                 <a href="{% url 'detail' property.id %}">
+
                     <img src="{{ property.image.url }}">
+
                 </a>
+
+                <div class="image-overlay"></div>
+
+                <div class="badge">
+                    ⭐ Premium
+                </div>
 
                 <div class="price-tag">
                     ₦{{ property.price }}
@@ -307,21 +466,52 @@ body{
             <!-- BODY -->
             <div class="card-body">
 
-                <h3>{{ property.title }}</h3>
+                <h3>
+                    {{ property.title }}
+                </h3>
 
-                <p class="location">
-                    📍 {{ property.city }}
-                </p>
+                <div class="location">
 
+                    <span>📍</span>
+
+                    <span>
+                        {{ property.city }}
+                    </span>
+
+                </div>
+
+                <!-- INFO -->
                 <div class="property-info">
 
-                    <span>
-                        🏠 {{ property.property_type }}
-                    </span>
+                    <div class="info-item">
 
-                    <span>
-                        ⭐ Premium
-                    </span>
+                        🏠
+
+                        <strong>
+                            {{ property.property_type }}
+                        </strong>
+
+                    </div>
+
+                    <div class="info-item">
+
+                        ✅
+
+                        <strong>
+                            Available
+                        </strong>
+
+                    </div>
+
+                    <div class="info-item">
+
+                        ⭐
+
+                        <strong>
+                            Verified
+                        </strong>
+
+                    </div>
 
                 </div>
 
@@ -330,14 +520,18 @@ body{
 
                     <a href="{% url 'detail' property.id %}"
                        class="btn btn-view">
-                        View
+
+                        View Details
+
                     </a>
 
                     {% if request.user.is_authenticated and request.user.user_type == 'tenant' %}
 
                     <a href="{% url 'book_property' property.id %}"
                        class="btn btn-book">
+
                         📅 Book
+
                     </a>
 
                     {% endif %}
@@ -348,14 +542,18 @@ body{
 
                         <a href="{% url 'toggle_favorite' property.id %}"
                            class="btn btn-saved">
+
                             ❤️ Saved
+
                         </a>
 
                         {% else %}
 
                         <a href="{% url 'toggle_favorite' property.id %}"
                            class="btn btn-save">
+
                             🤍 Save
+
                         </a>
 
                         {% endif %}
@@ -372,12 +570,17 @@ body{
 
         <div class="empty">
 
-            <h3 style="margin-bottom:10px;">
+            <div class="empty-icon">
+                🏠
+            </div>
+
+            <h3>
                 No Properties Found
             </h3>
 
             <p>
-                Try searching another location or add a new property.
+                We couldn't find any properties matching your search.
+                Try another location or add a new property listing.
             </p>
 
         </div>

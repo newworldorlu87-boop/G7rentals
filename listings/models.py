@@ -1,5 +1,17 @@
 from django.db import models
 from accounts.models import User
+from django.db import models
+
+class Property(models.Model):
+    title = models.CharField(max_length=200)
+    # ... your other fields ...
+    
+    class Meta:
+        app_label = 'rentals'  # Add this
+    
+    def __str__(self):
+        return self.title
+
   
 
 class Property(models.Model):

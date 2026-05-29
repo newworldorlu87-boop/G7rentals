@@ -3,17 +3,44 @@
 {% block content %}
 
 <style>
-body{
-    background:#f4f6f9;
-    font-family:Arial;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
+body{
+    background:#f4f6f9;
+    font-family:Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+/* MAIN CONTAINER */
 .container{
+    width:100%;
     max-width:1200px;
     margin:auto;
     padding:20px;
 }
 
+/* PAGE TITLE */
+.title{
+    margin-bottom:25px;
+}
+
+.title h1{
+    font-size:32px;
+    margin-bottom:10px;
+    color:#222;
+}
+
+.title p{
+    color:#666;
+    font-size:15px;
+}
+
+/* STATS GRID */
 .stats{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -21,18 +48,22 @@ body{
     margin-bottom:30px;
 }
 
+/* CARD */
 .card{
     background:white;
     padding:20px;
     border-radius:12px;
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    width:100%;
 }
 
 .card h2{
-    margin:0;
+    margin-top:10px;
     color:#007bff;
+    font-size:28px;
 }
 
+/* SECTION */
 .section{
     background:white;
     padding:20px;
@@ -41,8 +72,15 @@ body{
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
+/* TABLE RESPONSIVE */
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
 table{
     width:100%;
+    min-width:600px;
     border-collapse:collapse;
 }
 
@@ -51,17 +89,25 @@ table td{
     padding:12px;
     border-bottom:1px solid #ddd;
     text-align:left;
+    font-size:14px;
 }
 
-.title{
-    margin-bottom:25px;
+table th{
+    background:#f8f9fa;
+    font-weight:bold;
 }
 
+table tr:hover{
+    background:#f9f9f9;
+}
+
+/* BADGES */
 .badge{
     padding:5px 10px;
     border-radius:6px;
     color:white;
     font-size:12px;
+    display:inline-block;
 }
 
 .landlord{
@@ -71,10 +117,88 @@ table td{
 .tenant{
     background:#007bff;
 }
+
+/* PROPERTY IMAGE */
+.property-img{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+/* CHAT */
+.chat-card{
+    margin-top:15px;
+}
+
+.chat-card p{
+    margin-bottom:10px;
+}
+
+.chat-card small{
+    color:#777;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .container{
+        padding:12px;
+    }
+
+    .title h1{
+        font-size:24px;
+    }
+
+    .title p{
+        font-size:14px;
+    }
+
+    .section{
+        padding:15px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .card h2{
+        font-size:24px;
+    }
+
+    table th,
+    table td{
+        padding:10px;
+        font-size:13px;
+    }
+
+    .property-img{
+        width:55px;
+        height:55px;
+    }
+}
+
+/* EXTRA SMALL DEVICES */
+@media(max-width:480px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .title h1{
+        font-size:22px;
+    }
+
+    .card h2{
+        font-size:20px;
+    }
+}
+
 </style>
 
 <div class="container">
 
+    <!-- TITLE -->
     <div class="title">
         <h1>🛠 Admin Dashboard</h1>
         <p>Manage landlords, tenants, properties and bookings</p>
@@ -108,146 +232,179 @@ table td{
     <!-- LANDLORDS -->
     <div class="section">
 
-        <h2>🏠 Landlords</h2>
+        <h2 style="margin-bottom:20px;">🏠 Landlords</h2>
 
-        <table>
-            <tr>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Role</th>
-            </tr>
+        <div class="table-wrapper">
 
-            {% for landlord in landlords %}
-            <tr>
-                <td>{{ landlord.email }}</td>
-                <td>{{ landlord.phone }}</td>
-                <td>
-                    <span class="badge landlord">
-                        Landlord
-                    </span>
-                </td>
-            </tr>
-            {% endfor %}
+            <table>
 
-        </table>
+                <tr>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                </tr>
+
+                {% for landlord in landlords %}
+                <tr>
+
+                    <td>{{ landlord.email }}</td>
+
+                    <td>{{ landlord.phone }}</td>
+
+                    <td>
+                        <span class="badge landlord">
+                            Landlord
+                        </span>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
 
     </div>
 
     <!-- TENANTS -->
     <div class="section">
 
-        <h2>👤 Tenants</h2>
+        <h2 style="margin-bottom:20px;">👤 Tenants</h2>
 
-        <table>
-            <tr>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Role</th>
-            </tr>
+        <div class="table-wrapper">
 
-            {% for tenant in tenants %}
-            <tr>
-                <td>{{ tenant.email }}</td>
-                <td>{{ tenant.phone }}</td>
-                <td>
-                    <span class="badge tenant">
-                        Tenant
-                    </span>
-                </td>
-            </tr>
-            {% endfor %}
+            <table>
 
-        </table>
+                <tr>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                </tr>
+
+                {% for tenant in tenants %}
+                <tr>
+
+                    <td>{{ tenant.email }}</td>
+
+                    <td>{{ tenant.phone }}</td>
+
+                    <td>
+                        <span class="badge tenant">
+                            Tenant
+                        </span>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
 
     </div>
 
     <!-- PROPERTIES -->
     <div class="section">
 
-        <h2>🏘 Properties</h2>
+        <h2 style="margin-bottom:20px;">🏘 Properties</h2>
 
-        <table>
-            <tr>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Owner</th>
-                <th>City</th>
-                <th>Price</th>
-            </tr>
+        <div class="table-wrapper">
 
-            {% for property in properties %}
-            <tr>
+            <table>
 
-                <td>
-                    <img src="{{ property.image.url }}"
-                         width="70"
-                         style="border-radius:8px;">
-                </td>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Owner</th>
+                    <th>City</th>
+                    <th>Price</th>
+                </tr>
 
-                <td>{{ property.title }}</td>
-                <td>{{ property.owner.email }}</td>
-                <td>{{ property.city }}</td>
-                <td>₦{{ property.price }}</td>
+                {% for property in properties %}
+                <tr>
 
-            </tr>
-            {% endfor %}
+                    <td>
+                        <img src="{{ property.image.url }}"
+                             class="property-img">
+                    </td>
 
-        </table>
+                    <td>{{ property.title }}</td>
+
+                    <td>{{ property.owner.email }}</td>
+
+                    <td>{{ property.city }}</td>
+
+                    <td>₦{{ property.price }}</td>
+
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
 
     </div>
 
+    <!-- CHATS -->
     <div class="section">
 
-    <h2>💬 User Chats</h2>
+        <h2 style="margin-bottom:20px;">💬 User Chats</h2>
 
-    {% for msg in messages_list %}
+        {% for msg in messages_list %}
 
-    <div class="card">
+        <div class="card chat-card">
 
-        <p>
-            <strong>{{ msg.sender.username }}</strong>
-            →
-            <strong>{{ msg.receiver.username }}</strong>
-        </p>
+            <p>
+                <strong>{{ msg.sender.username }}</strong>
+                →
+                <strong>{{ msg.receiver.username }}</strong>
+            </p>
 
-        <p>
-            {{ msg.message }}
-        </p>
+            <p>
+                {{ msg.message }}
+            </p>
 
-        <small>
-            {{ msg.created_at }}
-        </small>
+            <small>
+                {{ msg.created_at }}
+            </small>
+
+        </div>
+
+        {% empty %}
+
+        <p>No messages yet.</p>
+
+        {% endfor %}
 
     </div>
-
-    {% empty %}
-
-    <p>No messages yet.</p>
-
-    {% endfor %}
-
-</div>
 
     <!-- BOOKINGS -->
     <div class="section">
 
-        <h2>📅 Bookings</h2>
+        <h2 style="margin-bottom:20px;">📅 Bookings</h2>
 
-        <table>
+        <div class="table-wrapper">
 
-            <tr>
-                <th>Tenant</th>
-                <th>Property</th>
-            </tr>
+            <table>
 
-            {% for booking in bookings %}
-            <tr>
-                <td>{{ booking.tenant.email }}</td>
-                <td>{{ booking.property.title }}</td>
-            </tr>
-            {% endfor %}
+                <tr>
+                    <th>Tenant</th>
+                    <th>Property</th>
+                </tr>
 
-        </table>
+                {% for booking in bookings %}
+                <tr>
+
+                    <td>{{ booking.tenant.email }}</td>
+
+                    <td>{{ booking.property.title }}</td>
+
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
 
     </div>
 

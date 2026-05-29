@@ -11,14 +11,32 @@
 }
 
 body{
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#f3f4f6;
+    overflow-x:hidden;
 }
 
 /* LAYOUT */
 .layout{
     display:flex;
     min-height:100vh;
+    width:100%;
+}
+
+/* MOBILE MENU BUTTON */
+.menu-btn{
+    display:none;
+    position:fixed;
+    top:15px;
+    left:15px;
+    z-index:1200;
+    background:#6d28d9;
+    color:white;
+    border:none;
+    padding:12px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:18px;
 }
 
 /* SIDEBAR */
@@ -27,9 +45,13 @@ body{
     background:linear-gradient(180deg,#4c1d95,#6d28d9);
     color:white;
     position:fixed;
+    left:0;
+    top:0;
     height:100%;
     padding:30px 20px;
     overflow-y:auto;
+    z-index:1000;
+    transition:0.3s ease;
     box-shadow:4px 0 20px rgba(0,0,0,0.12);
 }
 
@@ -48,7 +70,7 @@ body{
     padding:14px 16px;
     border-radius:12px;
     margin-bottom:12px;
-    transition:0.3s;
+    transition:0.3s ease;
     font-weight:500;
 }
 
@@ -63,6 +85,7 @@ body{
 .main{
     margin-left:260px;
     width:100%;
+    transition:0.3s ease;
 }
 
 /* NAVBAR */
@@ -171,6 +194,7 @@ body{
 .profile-left p{
     color:#666;
     margin-bottom:8px;
+    word-break:break-word;
 }
 
 .role-badge{
@@ -210,6 +234,7 @@ body{
 .section-title h3{
     color:#111827;
     margin-bottom:5px;
+    font-size:24px;
 }
 
 .section-title p{
@@ -264,7 +289,6 @@ textarea{
     resize:none;
 }
 
-/* FILE INPUT */
 .file-input{
     background:white !important;
     padding:12px !important;
@@ -280,7 +304,7 @@ textarea{
     cursor:pointer;
     font-size:15px;
     font-weight:600;
-    transition:0.3s;
+    transition:0.3s ease;
     width:100%;
     margin-top:10px;
 }
@@ -306,42 +330,39 @@ textarea{
 
 .info-box p{
     color:#6b7280;
-    line-height:1.6;
+    line-height:1.7;
     font-size:14px;
 }
 
-/* MOBILE */
+/* TABLET */
 @media(max-width:950px){
 
-    .profile-wrapper{
-        grid-template-columns:1fr;
+    .menu-btn{
+        display:block;
     }
 
     .sidebar{
-        width:85px;
-        overflow:hidden;
+        left:-260px;
     }
 
-    .sidebar h2{
-        font-size:16px;
-    }
-
-    .sidebar a{
-        justify-content:center;
-        padding:14px 6px;
-        font-size:12px;
+    .sidebar.active{
+        left:0;
     }
 
     .main{
-        margin-left:85px;
-    }
-
-    .content{
-        padding:15px;
+        margin-left:0;
     }
 
     .navbar{
-        padding:16px;
+        padding:18px 20px 18px 70px;
+    }
+
+    .content{
+        padding:20px;
+    }
+
+    .profile-wrapper{
+        grid-template-columns:1fr;
     }
 
     .form-grid{
@@ -350,12 +371,91 @@ textarea{
 
 }
 
+/* MOBILE */
+@media(max-width:600px){
+
+    .content{
+        padding:15px;
+    }
+
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .navbar h3{
+        font-size:20px;
+    }
+
+    .profile-left,
+    .profile-right{
+        padding:25px 18px;
+        border-radius:16px;
+    }
+
+    .profile-image,
+    .default-avatar{
+        width:110px;
+        height:110px;
+    }
+
+    .default-avatar{
+        font-size:38px;
+    }
+
+    .section-title h3{
+        font-size:22px;
+    }
+
+    .btn{
+        padding:14px;
+        font-size:14px;
+    }
+
+}
+
+/* EXTRA SMALL */
+@media(max-width:400px){
+
+    .navbar{
+        padding:15px 15px 15px 65px;
+    }
+
+    .profile-left h2{
+        font-size:20px;
+    }
+
+    .profile-left p{
+        font-size:13px;
+    }
+
+    .section-title h3{
+        font-size:20px;
+    }
+
+    .form-group input,
+    .form-group textarea{
+        padding:13px;
+        font-size:13px;
+    }
+
+}
+
 </style>
+
+<!-- MOBILE MENU -->
+<button class="menu-btn"
+        onclick="toggleSidebar()">
+
+    ☰
+
+</button>
 
 <div class="layout">
 
     <!-- SIDEBAR -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
 
         <h2>👤 Profile</h2>
 
@@ -412,9 +512,13 @@ textarea{
                 <div class="avatar-small">
 
                     {% if profile.avatar %}
+
                         <img src="{{ profile.avatar.url }}">
+
                     {% else %}
+
                         {{ request.user.username|first|upper }}
+
                     {% endif %}
 
                 </div>
@@ -454,9 +558,11 @@ textarea{
                     </p>
 
                     {% if request.user.phone %}
+
                     <p>
                         📞 {{ request.user.phone }}
                     </p>
+
                     {% endif %}
 
                     <span class="role-badge">
@@ -469,11 +575,15 @@ textarea{
                 <div class="profile-right">
 
                     {% if messages %}
+
                         {% for message in messages %}
+
                             <div class="alert">
                                 {{ message }}
                             </div>
+
                         {% endfor %}
+
                     {% endif %}
 
                     <div class="section-title">
@@ -602,9 +712,9 @@ textarea{
 
                             </div>
 
-                            <!-- LANDLORD SECTION -->
                             {% if request.user.user_type == 'landlord' %}
 
+                            <!-- COMPANY -->
                             <div class="form-group">
 
                                 <label>
@@ -618,6 +728,7 @@ textarea{
 
                             </div>
 
+                            <!-- BUSINESS ADDRESS -->
                             <div class="form-group">
 
                                 <label>
@@ -649,6 +760,7 @@ textarea{
 
                     </form>
 
+                    <!-- INFO BOX -->
                     <div class="info-box">
 
                         <h4>
@@ -664,10 +776,15 @@ textarea{
 
                         <p>
                             Email Verification:
+
                             {% if request.user.is_verified %}
+
                                 ✅ Verified
+
                             {% else %}
+
                                 ❌ Not Verified
+
                             {% endif %}
                         </p>
 
@@ -682,5 +799,17 @@ textarea{
     </div>
 
 </div>
+
+<script>
+
+function toggleSidebar(){
+
+    document
+    .getElementById("sidebar")
+    .classList
+    .toggle("active");
+}
+
+</script>
 
 {% endblock %}

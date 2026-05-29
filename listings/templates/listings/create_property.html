@@ -3,83 +3,365 @@
 {% block content %}
 
 <style>
-body {
-    background: #f5f7fa;
-    font-family: Arial, sans-serif;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* CONTAINER */
-.form-container {
-    max-width: 700px;
-    margin: 40px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+body{
+    background:#f5f7fa;
+    font-family:Arial,sans-serif;
+    overflow-x:hidden;
 }
 
-/* TITLE */
-.form-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
+/* PAGE WRAPPER */
+.page-wrapper{
+    width:100%;
+    min-height:100vh;
+    padding:30px 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* INPUTS */
-form input, 
-form select, 
-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+/* FORM CONTAINER */
+.form-container{
+    width:100%;
+    max-width:850px;
+    background:white;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 10px 35px rgba(0,0,0,0.08);
+    display:grid;
+    grid-template-columns:350px 1fr;
 }
 
-/* BUTTON */
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    background: #6f42c1;
-    color: white;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
+/* LEFT SIDE */
+.form-side{
+    background:linear-gradient(135deg,#6f42c1,#5b21b6);
+    color:white;
+    padding:40px 30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
 }
 
-button:hover {
-    background: #5a32a3;
+.form-side::before{
+    content:'';
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    top:-100px;
+    right:-100px;
+}
+
+.form-side::after{
+    content:'';
+    position:absolute;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    bottom:-80px;
+    left:-80px;
+}
+
+.side-content{
+    position:relative;
+    z-index:2;
+}
+
+.side-content h2{
+    font-size:34px;
+    margin-bottom:15px;
+    line-height:1.2;
+}
+
+.side-content p{
+    line-height:1.7;
+    opacity:0.92;
+    margin-bottom:30px;
+}
+
+/* FEATURES */
+.features{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.feature{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:15px;
+}
+
+/* RIGHT SIDE */
+.form-content{
+    padding:40px;
+}
+
+/* HEADER */
+.form-header{
+    margin-bottom:25px;
+}
+
+.form-header h3{
+    font-size:30px;
+    color:#111827;
+    margin-bottom:8px;
+}
+
+.form-header p{
+    color:#6b7280;
+    line-height:1.6;
 }
 
 /* ERROR */
-.error-box {
-    background: #ffe6e6;
-    color: red;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 15px;
+.error-box{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:20px;
+    border:1px solid #fecaca;
+    line-height:1.6;
+    overflow:auto;
 }
+
+/* FORM */
+form{
+    width:100%;
+}
+
+/* DJANGO FORM PARAGRAPHS */
+form p{
+    margin-bottom:18px;
+}
+
+/* LABELS */
+form label{
+    display:block;
+    margin-bottom:8px;
+    color:#374151;
+    font-weight:600;
+    font-size:14px;
+}
+
+/* INPUTS */
+form input,
+form select,
+form textarea{
+    width:100%;
+    padding:14px 16px;
+    border-radius:14px;
+    border:1px solid #d1d5db;
+    background:#fafafa;
+    outline:none;
+    font-size:15px;
+    transition:0.3s;
+}
+
+/* FILE INPUT */
+form input[type="file"]{
+    background:white;
+    padding:12px;
+}
+
+/* TEXTAREA */
+form textarea{
+    min-height:140px;
+    resize:vertical;
+}
+
+/* FOCUS */
+form input:focus,
+form select:focus,
+form textarea:focus{
+    border-color:#6f42c1;
+    background:white;
+    box-shadow:0 0 0 4px rgba(111,66,193,0.1);
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:16px;
+    border:none;
+    background:linear-gradient(135deg,#6f42c1,#5b21b6);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    border-radius:14px;
+    cursor:pointer;
+    transition:0.3s;
+    margin-top:10px;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(111,66,193,0.2);
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+    .form-container{
+        grid-template-columns:1fr;
+    }
+
+    .form-side{
+        padding:30px 25px;
+    }
+
+    .form-content{
+        padding:30px 25px;
+    }
+
+    .side-content h2{
+        font-size:28px;
+    }
+
+    .form-header h3{
+        font-size:26px;
+    }
+}
+
+/* SMALL MOBILE */
+@media(max-width:600px){
+
+    .page-wrapper{
+        padding:15px;
+    }
+
+    .form-container{
+        border-radius:18px;
+    }
+
+    .form-side{
+        padding:25px 20px;
+    }
+
+    .form-content{
+        padding:25px 20px;
+    }
+
+    .side-content h2{
+        font-size:24px;
+    }
+
+    .form-header h3{
+        font-size:22px;
+    }
+
+    form input,
+    form select,
+    form textarea{
+        padding:13px 14px;
+        font-size:14px;
+    }
+
+    button{
+        padding:14px;
+        font-size:15px;
+    }
+}
+
 </style>
 
-<div class="form-container">
+<div class="page-wrapper">
 
-    <h2>➕ Create Property</h2>
+    <div class="form-container">
 
-    <!-- SHOW ERRORS -->
-    {% if form.errors %}
-        <div class="error-box">
-            {{ form.errors }}
+        <!-- LEFT SIDE -->
+        <div class="form-side">
+
+            <div class="side-content">
+
+                <h2>
+                    🏠 List Your Property
+                </h2>
+
+                <p>
+                    Add your property details and connect with tenants looking for their next home.
+                </p>
+
+                <div class="features">
+
+                    <div class="feature">
+                        ✅ Reach more tenants
+                    </div>
+
+                    <div class="feature">
+                        📸 Upload property images
+                    </div>
+
+                    <div class="feature">
+                        💬 Chat directly with renters
+                    </div>
+
+                    <div class="feature">
+                        📅 Manage bookings easily
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-    {% endif %}
 
-    <!-- FORM -->
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+        <!-- RIGHT SIDE -->
+        <div class="form-content">
 
-        {{ form.as_p }}
+            <div class="form-header">
 
-        <button type="submit">Create Property</button>
-    </form>
+                <h3>
+                    Create Property
+                </h3>
+
+                <p>
+                    Fill in the details below to publish your property listing.
+                </p>
+
+            </div>
+
+            <!-- ERRORS -->
+            {% if form.errors %}
+
+                <div class="error-box">
+
+                    {{ form.errors }}
+
+                </div>
+
+            {% endif %}
+
+            <!-- FORM -->
+            <form method="post"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit">
+
+                    ➕ Create Property
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
