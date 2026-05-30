@@ -6,6 +6,112 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+/* =========================
+   ZILLOW STYLE NAVBAR
+========================= */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:white;
+    z-index:1000;
+    box-shadow:0 2px 15px rgba(0,0,0,0.08);
+}
+
+.nav-container{
+    max-width:1300px;
+    margin:auto;
+    padding:0 25px;
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.nav-left,
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:800;
+    color:#2563eb;
+    text-decoration:none;
+}
+
+.nav-link{
+    text-decoration:none;
+    color:#111827;
+    font-weight:600;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#2563eb;
+}
+
+.signup-btn{
+    background:#2563eb;
+    color:white;
+    padding:10px 18px;
+    border-radius:10px;
+}
+
+.signup-btn:hover{
+    background:#1d4ed8;
+    color:white;
+}
+
+.mobile-menu-btn{
+    display:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.mobile-menu{
+    display:none;
+}
+
+.hero{
+    padding-top:75px;
+}
+
+@media(max-width:900px){
+
+    .nav-left,
+    .nav-right{
+        display:none;
+    }
+
+    .mobile-menu-btn{
+        display:block;
+    }
+
+    .mobile-menu{
+        display:none;
+        flex-direction:column;
+        background:white;
+        padding:20px;
+        border-top:1px solid #eee;
+    }
+
+    .mobile-menu a{
+        padding:12px 0;
+        text-decoration:none;
+        color:#111827;
+        font-weight:600;
+        border-bottom:1px solid #f3f4f6;
+    }
+
+    .mobile-menu.active{
+        display:flex;
+    }
+}
 *{
     margin:0;
     padding:0;
@@ -483,7 +589,108 @@ body{
 }
 
 </style>
+<!-- NAVBAR -->
 
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        <div class="nav-left">
+
+            <a href="/" class="logo">
+                G7Rentals
+            </a>
+
+            <a href="{% url 'property_list' %}" class="nav-link">
+                Properties
+            </a>
+
+            <a href="#about" class="nav-link">
+                About
+            </a>
+
+            <a href="#contact" class="nav-link">
+                Contact
+            </a>
+
+        </div>
+
+        <div class="nav-right">
+
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'profile' %}" class="nav-link">
+                    Profile
+                </a>
+
+                <a href="{% url 'logout' %}" class="nav-link">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}" class="nav-link">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}"
+                   class="nav-link signup-btn">
+                    Sign Up
+                </a>
+
+            {% endif %}
+
+        </div>
+
+        <div class="mobile-menu-btn"
+             onclick="toggleMenu()">
+
+             ☰
+
+        </div>
+
+    </div>
+
+    <div id="mobileMenu"
+         class="mobile-menu">
+
+        <a href="{% url 'property_list' %}">
+            Properties
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+        <a href="#contact">
+            Contact
+        </a>
+
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'profile' %}">
+                Profile
+            </a>
+
+            <a href="{% url 'logout' %}">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}">
+                Sign Up
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
 <!-- HERO -->
 <section class="hero">
 
