@@ -1,133 +1,537 @@
-
+{% extends 'accounts/base.html' %}
 
 {% block content %}
 
 <style>
-/* HERO */
-.hero {
-    height: 90vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
 }
 
-.hero h1 {
-    font-size: 3rem;
+body{
+    background:#f7f8fa;
+    color:#1f2937;
 }
 
-.search-box {
-    margin-top: 20px;
+/* ======================
+   NAVBAR
+====================== */
+
+.navbar{
+    background:#fff;
+    height:75px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 8%;
+    box-shadow:0 2px 15px rgba(0,0,0,0.06);
+    position:sticky;
+    top:0;
+    z-index:999;
 }
 
-.search-box input {
-    padding: 12px;
-    width: 250px;
-    border-radius: 8px;
-    border: none;
+.logo{
+    font-size:28px;
+    font-weight:700;
+    color:#006aff;
+    text-decoration:none;
 }
 
-.search-box button {
-    padding: 12px 20px;
-    border: none;
-    background: #28a745;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
+.nav-links{
+    display:flex;
+    gap:30px;
+    align-items:center;
 }
 
-/* PROPERTY GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 40px;
+.nav-links a{
+    text-decoration:none;
+    color:#374151;
+    font-weight:500;
+    transition:.3s;
 }
 
-.card {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: 0.3s;
-    background: white;
+.nav-links a:hover{
+    color:#006aff;
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.nav-btn{
+    background:#006aff;
+    color:white !important;
+    padding:10px 18px;
+    border-radius:8px;
 }
 
-.card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+/* ======================
+   HERO
+====================== */
+
+.hero{
+    min-height:90vh;
+    background:
+    linear-gradient(
+        rgba(0,0,0,.45),
+        rgba(0,0,0,.45)
+    ),
+    url('https://images.unsplash.com/photo-1560518883-ce09059eeffa');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px;
 }
 
-.card-body {
-    padding: 15px;
+.hero-content{
+    max-width:850px;
+    color:white;
 }
 
-/* CTA */
-.cta {
-    background: #111;
-    color: white;
-    text-align: center;
-    padding: 60px 20px;
+.hero-content h1{
+    font-size:4rem;
+    margin-bottom:15px;
+    font-weight:700;
 }
+
+.hero-content p{
+    font-size:1.2rem;
+    opacity:.95;
+    margin-bottom:35px;
+}
+
+/* SEARCH */
+
+.search-box{
+    display:flex;
+    justify-content:center;
+    background:white;
+    padding:10px;
+    border-radius:14px;
+    max-width:700px;
+    margin:auto;
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.search-box input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:15px;
+    font-size:16px;
+}
+
+.search-box button{
+    background:#006aff;
+    color:white;
+    border:none;
+    padding:15px 28px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.search-box button:hover{
+    background:#0054cc;
+}
+
+/* ======================
+   SECTION TITLE
+====================== */
+
+.section-title{
+    text-align:center;
+    margin:70px 0 40px;
+}
+
+.section-title h2{
+    font-size:2rem;
+    margin-bottom:10px;
+}
+
+.section-title p{
+    color:#6b7280;
+}
+
+/* ======================
+   GRID
+====================== */
+
+.grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+    padding:0 8% 80px;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 35px rgba(0,0,0,.12);
+}
+
+.card img{
+    width:100%;
+    height:240px;
+    object-fit:cover;
+}
+
+.card-body{
+    padding:22px;
+}
+
+.price{
+    font-size:24px;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:10px;
+}
+
+.card-body h4{
+    margin-bottom:10px;
+    font-size:20px;
+}
+
+.location{
+    color:#6b7280;
+    margin-bottom:18px;
+}
+
+.view-btn{
+    display:inline-block;
+    text-decoration:none;
+    background:#006aff;
+    color:white;
+    padding:10px 18px;
+    border-radius:8px;
+    transition:.3s;
+}
+
+.view-btn:hover{
+    background:#0054cc;
+}
+
+/* ======================
+   FEATURES
+====================== */
+
+.features{
+    padding:90px 8%;
+    background:white;
+}
+
+.features-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+.feature{
+    text-align:center;
+    padding:30px;
+}
+
+.feature h3{
+    margin:15px 0;
+}
+
+.feature p{
+    color:#6b7280;
+}
+
+/* ======================
+   CTA
+====================== */
+
+.cta{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:100px 20px;
+}
+
+.cta h2{
+    font-size:2.5rem;
+    margin-bottom:15px;
+}
+
+.cta p{
+    margin-bottom:30px;
+    opacity:.9;
+}
+
+.cta a{
+    display:inline-block;
+    background:#006aff;
+    color:white;
+    text-decoration:none;
+    padding:15px 30px;
+    border-radius:10px;
+    font-weight:600;
+}
+
+/* ======================
+   FOOTER
+====================== */
+
+.footer{
+    background:white;
+    text-align:center;
+    padding:30px;
+    color:#6b7280;
+}
+
+/* ======================
+   MOBILE
+====================== */
+
+@media(max-width:768px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .nav-links{
+        gap:15px;
+        font-size:14px;
+    }
+
+    .hero-content h1{
+        font-size:2.4rem;
+    }
+
+    .hero-content p{
+        font-size:1rem;
+    }
+
+    .search-box{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .search-box button{
+        width:100%;
+    }
+
+    .grid{
+        padding:0 20px 60px;
+    }
+
+    .cta h2{
+        font-size:2rem;
+    }
+
+}
+
 </style>
 
-<!-- HERO SECTION -->
-<div class="hero">
-    <div>
-        <h1>Find Your Dream Rental</h1>
-        <p>Search houses, apartments, and more</p>
+<!-- NAVBAR -->
 
-        <form method="get" action="{% url 'property_list' %}" class="search-box">
-            <input type="text" name="city" placeholder="Enter city...">
-            <button type="submit">Search</button>
-        </form>
+<nav class="navbar">
+
+    <a href="/" class="logo">
+        RentalHub
+    </a>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="{% url 'property_list' %}">
+            Properties
+        </a>
+
+        <a href="{% url 'create_property' %}">
+            List Property
+        </a>
+
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'profile' %}">
+                Profile
+            </a>
+
+            <a href="{% url 'logout' %}" class="nav-btn">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}" class="nav-btn">
+                Sign Up
+            </a>
+
+        {% endif %}
+
     </div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Find Your Perfect Rental Home
+        </h1>
+
+        <p>
+            Browse apartments, houses and short lets
+            across your favorite locations.
+        </p>
+
+        <form method="GET"
+              action="{% url 'property_list' %}"
+              class="search-box">
+
+            <input
+                type="text"
+                name="city"
+                placeholder="Search by city..."
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<!-- FEATURED -->
+
+<div class="section-title">
+
+    <h2>Featured Properties</h2>
+
+    <p>
+        Hand-picked homes available right now
+    </p>
+
 </div>
 
-<!-- FEATURED PROPERTIES -->
-<h2 style="text-align:center; margin-top:30px;">Featured Listings</h2>
-
 <div class="grid">
-    {% for property in featured %}
+
+{% for property in featured %}
+
     <div class="card">
+
         {% if property.images.first %}
             <img src="{{ property.images.first.image.url }}">
         {% endif %}
 
         <div class="card-body">
-            <h4>{{ property.title }}</h4>
-            <p>₦{{ property.price }}</p>
-            <p>{{ property.city }}</p>
 
-            <a href="{% url 'property_detail' property.id %}">View</a>
+            <div class="price">
+                ₦{{ property.price }}
+            </div>
+
+            <h4>
+                {{ property.title }}
+            </h4>
+
+            <div class="location">
+                {{ property.city }}
+            </div>
+
+            <a
+                href="{% url 'detail' property.id %}"
+                class="view-btn"
+            >
+                View Property
+            </a>
+
         </div>
+
     </div>
-    {% endfor %}
+
+{% endfor %}
+
 </div>
 
-<!-- CALL TO ACTION -->
-<div class="cta">
-    <h2>Are you a landlord?</h2>
-    <p>List your property and reach thousands</p>
-    <a href="{% url 'create_property' %}" style="color:#28a745;">Add Property</a>
-</div>
+<!-- FEATURES -->
 
-<!-- SIMPLE INTERACTION -->
-<script>
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', () => {
-        card.style.boxShadow = "0 10px 25px rgba(0,0,0,0.2)";
-    });
-});
-</script>
+<section class="features">
+
+    <div class="section-title">
+
+        <h2>Why Choose RentalHub?</h2>
+
+    </div>
+
+    <div class="features-grid">
+
+        <div class="feature">
+            <h3>Verified Listings</h3>
+            <p>
+                Every property is reviewed before
+                appearing on our platform.
+            </p>
+        </div>
+
+        <div class="feature">
+            <h3>Direct Contact</h3>
+            <p>
+                Chat directly with landlords and agents.
+            </p>
+        </div>
+
+        <div class="feature">
+            <h3>Secure Booking</h3>
+            <p>
+                Book properties safely through the platform.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <h2>
+        Are You a Landlord?
+    </h2>
+
+    <p>
+        Reach thousands of tenants looking for homes.
+    </p>
+
+    <a href="{% url 'create_property' %}">
+        List Your Property
+    </a>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    © 2026 RentalHub. All rights reserved.
+
+</footer>
 
 {% endblock %}
