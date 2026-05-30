@@ -1,0 +1,105 @@
+{% extends "accounts/base.html" %}
+
+{% load socialaccount %}
+
+{% block content %}
+
+<style>
+.google-container{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f5f7fb;
+    padding:20px;
+}
+
+.google-card{
+    width:100%;
+    max-width:450px;
+    background:white;
+    border-radius:20px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 10px 40px rgba(0,0,0,.08);
+}
+
+.google-icon{
+    width:70px;
+    height:70px;
+    margin:auto;
+    margin-bottom:20px;
+}
+
+.google-card h2{
+    margin-bottom:10px;
+    color:#111827;
+}
+
+.google-card p{
+    color:#6b7280;
+    margin-bottom:25px;
+}
+
+.google-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#006aff;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.google-btn:hover{
+    background:#0053cc;
+}
+
+.cancel-link{
+    display:block;
+    margin-top:15px;
+    color:#6b7280;
+    text-decoration:none;
+}
+</style>
+
+<div class="google-container">
+
+    <div class="google-card">
+
+        <img
+            class="google-icon"
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+            alt="Google"
+        >
+
+        <h2>Continue with Google</h2>
+
+        <p>
+            You are about to sign in using your Google account.
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="google-btn"
+            >
+                Continue with Google
+            </button>
+
+        </form>
+
+        <a href="/" class="cancel-link">
+            Cancel
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

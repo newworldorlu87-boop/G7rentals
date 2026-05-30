@@ -13,6 +13,7 @@ import dj_database_url
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,8 +57,7 @@ INSTALLED_APPS = [
     'listings',
     'dashboard',
 ]
-
-SITE_ID = 1
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,6 +74,9 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Allauth settings
 ACCOUNT_LOGIN_METHODS = {'email'}

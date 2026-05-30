@@ -4,6 +4,8 @@
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 *{
     margin:0;
     padding:0;
@@ -11,25 +13,25 @@
 }
 
 body{
-    font-family:Arial,sans-serif;
-    background:#f4f6f9;
+    font-family:'Inter',sans-serif;
+    background:#f7f9fc;
+    color:#1f2937;
     overflow-x:hidden;
 }
 
-/* WRAPPER */
+/* LAYOUT */
 .login-wrapper{
     display:flex;
     min-height:100vh;
     width:100%;
 }
 
-/* LEFT IMAGE */
+/* LEFT SIDE */
 .login-image{
     flex:1;
     background:
-    linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),
-    url('https://images.unsplash.com/photo-1507089947368-19c1da9775ae');
-
+    linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),
+    url('https://images.unsplash.com/photo-1560518883-ce09059eeffa');
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
@@ -41,294 +43,342 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:20px;
-    background:#f4f6f9;
+    padding:40px 20px;
 }
 
-/* LOGIN CARD */
+/* CARD */
 .login-card{
     width:100%;
-    max-width:420px;
-
-    background:rgba(255,255,255,0.95);
-
-    padding:40px;
-
-    border-radius:20px;
-
-    box-shadow:0 20px 50px rgba(0,0,0,0.12);
-
-    backdrop-filter:blur(10px);
-
-    transition:0.3s ease;
+    max-width:460px;
+    background:white;
+    padding:48px;
+    border-radius:24px;
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.04),
+        0 12px 40px rgba(0,0,0,.08);
 }
 
-.login-card:hover{
-    transform:translateY(-3px);
+/* LOGO */
+.brand-logo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-bottom:28px;
+}
+
+.logo-icon{
+    width:72px;
+    height:72px;
+    border-radius:20px;
+    background:#006AFF;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    margin-bottom:12px;
+}
+
+.logo-text{
+    font-size:22px;
+    font-weight:700;
+    color:#006AFF;
 }
 
 /* TITLE */
 .login-card h2{
     text-align:center;
-    margin-bottom:8px;
-    font-size:32px;
-    color:#111827;
+    font-size:36px;
+    font-weight:700;
+    color:#101828;
+    margin-bottom:10px;
 }
 
 .sub-text{
     text-align:center;
-    font-size:14px;
-    color:#777;
-    margin-bottom:30px;
-    line-height:1.5;
+    color:#667085;
+    font-size:15px;
+    line-height:1.7;
+    margin-bottom:32px;
 }
 
-/* ERROR */
+/* ALERT */
 .error{
-    color:#ff4d4d;
+    color:#b42318;
+    background:#fef3f2;
+    border:1px solid #fecdca;
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:18px;
     text-align:center;
-    margin-bottom:15px;
-    font-size:13px;
-    background:#ffecec;
-    padding:10px;
-    border-radius:10px;
+    font-size:14px;
 }
 
-/* INPUT GROUP */
+/* FORM */
 .input-group{
     position:relative;
     margin-bottom:18px;
 }
 
-/* INPUT */
 .input-group input{
     width:100%;
-    padding:14px 50px 14px 14px;
-
+    padding:15px 50px 15px 16px;
+    border:1px solid #d0d5dd;
     border-radius:12px;
-    border:1px solid #ddd;
-
-    outline:none;
-
-    font-size:14px;
-
-    transition:0.3s ease;
-
-    background:white;
+    background:#fff;
+    font-size:15px;
+    transition:.25s ease;
 }
 
 .input-group input:focus{
-    border-color:#28a745;
-    box-shadow:0 0 0 3px rgba(40,167,69,0.1);
+    outline:none;
+    border-color:#006AFF;
+    box-shadow:0 0 0 4px rgba(0,106,255,.12);
 }
 
-/* PASSWORD TOGGLE */
+/* SHOW PASSWORD */
 .toggle-password{
     position:absolute;
-    right:15px;
+    right:16px;
     top:50%;
     transform:translateY(-50%);
     cursor:pointer;
+    color:#667085;
     font-size:13px;
-    color:#555;
-    user-select:none;
-    font-weight:bold;
+    font-weight:600;
 }
 
-/* BUTTON */
-button{
-    width:100%;
-    padding:14px;
-
-    border:none;
-
-    background:linear-gradient(135deg,#28a745,#218838);
-
-    color:white;
-
-    border-radius:12px;
-
-    font-size:15px;
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition:0.3s ease;
+/* FORGOT */
+.forgot-password{
+    text-align:right;
+    margin-bottom:20px;
 }
 
-button:hover{
-    transform:translateY(-2px);
-    opacity:0.95;
-}
-
-/* REGISTER LINK */
-.login-card a{
-    display:block;
-    text-align:center;
-    margin-top:20px;
-    color:#28a745;
+.forgot-password a{
+    color:#006AFF;
     text-decoration:none;
     font-size:14px;
     font-weight:500;
 }
 
-.login-card a:hover{
+.forgot-password a:hover{
+    text-decoration:underline;
+}
+
+/* GOOGLE BUTTON */
+.google-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    padding:14px;
+    border:1px solid #d0d5dd;
+    border-radius:12px;
+    text-decoration:none;
+    background:white;
+    color:#344054;
+    font-weight:600;
+    margin-bottom:18px;
+    transition:.25s ease;
+}
+
+.google-btn:hover{
+    background:#f8fafc;
+}
+
+/* DIVIDER */
+.divider{
+    display:flex;
+    align-items:center;
+    margin:22px 0;
+    color:#98a2b3;
+    font-size:14px;
+}
+
+.divider::before,
+.divider::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:#eaecf0;
+}
+
+.divider span{
+    padding:0 12px;
+}
+
+/* LOGIN BUTTON */
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    background:#006AFF;
+    color:white;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+}
+
+button:hover{
+    background:#0057d8;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,106,255,.25);
+}
+
+/* REGISTER */
+.register-link{
+    text-align:center;
+    margin-top:22px;
+}
+
+.register-link a{
+    color:#006AFF;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.register-link a:hover{
     text-decoration:underline;
 }
 
 /* MOBILE */
-@media(max-width:900px){
-
-    .login-wrapper{
-        flex-direction:column;
-    }
-
-    .login-image{
-        height:250px;
-        flex:none;
-    }
-
-    .login-container{
-        padding:20px;
-    }
-
-}
-
-/* SMALL DEVICES */
-@media(max-width:600px){
+@media(max-width:768px){
 
     .login-image{
         display:none;
     }
 
     .login-container{
-        min-height:100vh;
-        padding:15px;
+        padding:20px;
     }
 
     .login-card{
-        padding:30px 20px;
-        border-radius:16px;
+        max-width:100%;
+        padding:32px 24px;
+        border-radius:20px;
     }
 
     .login-card h2{
-        font-size:26px;
+        font-size:28px;
     }
 
     .sub-text{
-        font-size:13px;
-    }
-
-    .input-group input{
-        padding:13px 45px 13px 13px;
         font-size:14px;
     }
-
-    button{
-        padding:13px;
-        font-size:14px;
-    }
-
 }
 
 /* EXTRA SMALL */
-@media(max-width:400px){
+@media(max-width:420px){
 
     .login-card{
-        padding:25px 18px;
+        padding:24px 18px;
     }
 
     .login-card h2{
-        font-size:22px;
+        font-size:24px;
     }
 
-    .sub-text{
-        font-size:12px;
+    .logo-icon{
+        width:60px;
+        height:60px;
+        font-size:28px;
     }
-
 }
 
 </style>
 
 <div class="login-wrapper">
 
-    <!-- LEFT IMAGE -->
-    <div class="login-image"></div>
+```
+<div class="login-image"></div>
 
-    <!-- RIGHT FORM -->
-    <div class="login-container">
+<div class="login-container">
 
-        <div class="login-card">
+    <div class="login-card">
 
-            <h2>Welcome Back</h2>
+        <div class="brand-logo">
+            <div class="logo-icon">🏠</div>
+            <div class="logo-text">RentalHub</div>
+        </div>
 
-            <div class="sub-text">
-                Login to your account and continue managing your rentals
+        <h2>Welcome Back</h2>
+
+        <div class="sub-text">
+            Login to manage your rentals, bookings, favorites and messages.
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <a href="{% url 'google_login' %}" class="google-btn">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="18">
+            Continue with Google
+        </a>
+
+        <div class="divider">
+            <span>or</span>
+        </div>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="input-group">
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email address"
+                    required>
             </div>
 
-            {% if messages %}
+            <div class="input-group">
 
-                {% for message in messages %}
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    required>
 
-                    <div class="error">
-                        {{ message }}
-                    </div>
+                <span
+                    class="toggle-password"
+                    onclick="togglePassword()">
 
-                {% endfor %}
+                    Show
 
-            {% endif %}
+                </span>
 
-            <form method="post">
+            </div>
 
-                {% csrf_token %}
+            <div class="forgot-password">
+                <a href="{% url 'reset_request' %}">
+                    Forgot Password?
+                </a>
+            </div>
 
-                <!-- EMAIL -->
-                <div class="input-group">
+            <button type="submit">
+                Login
+            </button>
 
-                    <input type="email"
-                           name="email"
-                           placeholder="Email address"
-                           required>
+        </form>
 
-                </div>
-
-                <!-- PASSWORD -->
-                <div class="input-group">
-
-                    <input type="password"
-                           name="password"
-                           id="password"
-                           placeholder="Password"
-                           required>
-
-                    <span class="toggle-password"
-                          onclick="togglePassword()">
-
-                          Show
-
-                    </span>
-
-                </div>
-
-                <!-- BUTTON -->
-                <button type="submit">
-
-                    Login
-
-                </button>
-
-            </form>
-
-            <!-- REGISTER -->
+        <div class="register-link">
             <a href="{% url 'register' %}">
-
                 Don't have an account? Register
-
             </a>
-
         </div>
 
     </div>
+
+</div>
+```
 
 </div>
 
@@ -336,22 +386,14 @@ button:hover{
 
 function togglePassword(){
 
-    const input =
-        document.getElementById("password");
-
-    const toggle =
-        document.querySelector(".toggle-password");
+    const input = document.getElementById("password");
+    const toggle = document.querySelector(".toggle-password");
 
     if(input.type === "password"){
-
         input.type = "text";
-
         toggle.textContent = "Hide";
-
     }else{
-
         input.type = "password";
-
         toggle.textContent = "Show";
     }
 }

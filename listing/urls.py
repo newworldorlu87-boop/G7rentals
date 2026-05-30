@@ -14,6 +14,9 @@ urlpatterns = [
     path('', include('reviews.urls')),
 
     path('dashboard/', include('dashboard.urls')),
+
+    # Django Allauth
+    path('accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += static(
