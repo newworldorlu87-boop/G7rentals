@@ -55,6 +55,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
+    'cloudinary',           
+    'cloudinary_storage',
+    
+
     # Your Apps
     'accounts',
     'bookings',
@@ -174,6 +178,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dkxkhd3gl',
+    'API_KEY': '475485621891332', 
+    'API_SECRET': 'nKxVURQ_VDqCwQ_vD4CQDa1aCR4',
+}
+
+# Use Cloudinary for media files
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
