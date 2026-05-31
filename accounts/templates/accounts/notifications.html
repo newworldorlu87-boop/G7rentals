@@ -1,0 +1,262 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+:root {
+    --primary: #2563eb;
+    --primary-light: #dbeafe;
+    --success: #059669;
+    --success-light: #d1fae5;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-400: #94a3b8;
+    --gray-500: #64748b;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1e293b;
+    --gray-900: #0f172a;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: var(--gray-50);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--gray-800);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+.page-header {
+    margin-bottom: 28px;
+}
+
+.page-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gray-900);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.unread-badge {
+    background: var(--danger);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 9999px;
+}
+
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notification-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 24px;
+    transition: box-shadow var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.notification-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.notification-card.unread {
+    border-left: 4px solid var(--primary);
+}
+
+.notification-card.read {
+    border-left: 4px solid var(--gray-300);
+    opacity: 0.85;
+}
+
+.notification-card.priority-URGENT { border-left-color: var(--danger); }
+.notification-card.priority-HIGH { border-left-color: var(--warning); }
+.notification-card.priority-NORMAL { border-left-color: var(--primary); }
+.notification-card.priority-LOW { border-left-color: var(--gray-400); }
+
+.notification-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+
+.notification-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-900);
+    flex: 1;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: var(--gray-400);
+    white-space: nowrap;
+}
+
+.notification-message {
+    color: var(--gray-600);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.notification-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notification-sender {
+    font-size: 12px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.priority-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.priority-URGENT { background: var(--danger-light); color: var(--danger); }
+.priority-HIGH { background: var(--warning-light); color: var(--warning); }
+.priority-NORMAL { background: var(--primary-light); color: var(--primary-dark); }
+.priority-LOW { background: var(--gray-100); color: var(--gray-500); }
+
+.mark-read-btn {
+    font-size: 12px;
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: var(--radius-md);
+    transition: background var(--transition);
+}
+
+.mark-read-btn:hover {
+    background: var(--primary-light);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--gray-400);
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+}
+
+.empty-state h3 {
+    font-size: 18px;
+    color: var(--gray-600);
+    margin-bottom: 6px;
+}
+
+.empty-state p {
+    font-size: 14px;
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 20px 16px;
+    }
+    
+    .page-header h1 {
+        font-size: 20px;
+    }
+    
+    .notification-card {
+        padding: 16px;
+    }
+}
+</style>
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>
+            📬 Notifications
+            {% if unread_count > 0 %}
+            <span class="unread-badge">{{ unread_count }} new</span>
+            {% endif %}
+        </h1>
+    </div>
+
+    <div class="notification-list">
+        {% for notif in notifications %}
+        <div class="notification-card {% if not notif.is_read %}unread priority-{{ notif.priority }}{% else %}read{% endif %}">
+            <div class="notification-header">
+                <div class="notification-title">{{ notif.title }}</div>
+                <div class="notification-time">{{ notif.created_at|timesince }} ago</div>
+            </div>
+            
+            <div class="notification-message">{{ notif.message }}</div>
+            
+            <div class="notification-footer">
+                <div class="notification-sender">
+                    <span>From Admin</span>
+                    <span>•</span>
+                    <span class="priority-badge priority-{{ notif.priority }}">
+                        {{ notif.get_priority_display }}
+                    </span>
+                </div>
+                
+                {% if not notif.is_read %}
+                <form method="post" action="{% url 'mark_notification_read' notif.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="mark-read-btn">Mark as read</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>No notifications yet</h3>
+            <p>You'll see admin announcements here when they arrive.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

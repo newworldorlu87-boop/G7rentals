@@ -4,185 +4,426 @@
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* =========================
+   CSS VARIABLES
+========================= */
+
+:root {
+    --primary: #0f172a;
+    --primary-light: #1e293b;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-soft: #eff6ff;
+    --success: #059669;
+    --success-soft: #ecfdf5;
+    --danger: #dc2626;
+    --danger-soft: #fef2f2;
+    --warning: #d97706;
+    --warning-soft: #fffbeb;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --bg-body: #f8fafc;
+    --bg-white: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.08);
+    --bg-glass-hover: rgba(255, 255, 255, 0.12);
+    --border-glass: rgba(255, 255, 255, 0.12);
+    --border-glass-hover: rgba(255, 255, 255, 0.2);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* FULL PAGE BACKGROUND */
-body{
-    font-family:Arial,sans-serif;
-    overflow-x:hidden;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
     background:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-    url("https://images.unsplash.com/photo-1505691938895-1758d7feb511");
-
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
-    min-height:100vh;
+        linear-gradient(160deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.88) 50%, rgba(37, 99, 235, 0.65) 100%),
+        url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1920&q=80");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    color: white;
 }
 
-/* DASHBOARD CONTAINER */
-.dashboard{
-    width:100%;
-    max-width:1200px;
-    margin:auto;
-    padding:40px 20px;
-    color:white;
+/* =========================
+   DASHBOARD CONTAINER
+========================= */
+
+.dashboard {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
 }
 
-/* HEADER */
-.dashboard-header{
-    text-align:center;
-    margin-bottom:40px;
+/* =========================
+   HEADER
+========================= */
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 48px;
+    position: relative;
 }
 
-.dashboard-header h2{
-    font-size:38px;
-    margin-bottom:10px;
-    font-weight:bold;
+.welcome-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 16px;
 }
 
-.dashboard-header p{
-    font-size:16px;
-    opacity:0.9;
+.dashboard-header h2 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+    line-height: 1.15;
 }
 
-/* GRID */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
+.dashboard-header h2 span {
+    background: linear-gradient(135deg, #c4b5fd, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* GLASS CARD */
-.card{
-    background:rgba(255,255,255,0.12);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-
-    border:1px solid rgba(255,255,255,0.15);
-
-    padding:25px;
-    border-radius:18px;
-
-    box-shadow:0 8px 25px rgba(0,0,0,0.3);
-
-    transition:0.3s ease;
-
-    width:100%;
+.dashboard-header p {
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
-/* CARD HOVER */
-.card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 12px 30px rgba(0,0,0,0.4);
+/* =========================
+   STATS BAR
+========================= */
+
+.stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+}
+
+.stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    transition: var(--transition);
+}
+
+.stat-pill:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.stat-pill .stat-value {
+    font-weight: 800;
+    color: white;
+    font-size: 16px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* =========================
+   GLASS CARD
+========================= */
+
+.card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-glass);
+    padding: 28px;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #7c3aed);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    background: var(--bg-glass-hover);
+    border-color: var(--border-glass-hover);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+/* CARD ICON */
+.card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 18px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+}
+
+.card:hover .card-icon {
+    transform: scale(1.08) rotate(-3deg);
+    background: rgba(255, 255, 255, 0.12);
 }
 
 /* CARD TEXT */
-.card h3{
-    margin-bottom:15px;
-    font-size:22px;
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
 }
 
-.card p{
-    font-size:14px;
-    line-height:1.6;
-    opacity:0.9;
-    margin-bottom:18px;
+.card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 24px;
+    flex: 1;
 }
 
-/* BUTTONS */
-.btn{
-    display:inline-block;
-    padding:12px 18px;
-    border-radius:10px;
-    text-decoration:none;
-    color:white;
-    font-size:14px;
-    font-weight:bold;
-    transition:0.3s ease;
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
-.btn:hover{
-    opacity:0.9;
-    transform:scale(1.03);
+.btn svg {
+    transition: transform 0.2s ease;
 }
 
-/* BUTTON COLORS */
-.btn-primary{
-    background:#007bff;
+.btn:hover svg {
+    transform: translateX(3px);
 }
 
-.btn-success{
-    background:#28a745;
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent), #7c3aed);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
 }
 
-.btn-danger{
-    background:#dc3545;
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
 }
 
-/* MOBILE RESPONSIVENESS */
-@media(max-width:768px){
-
-    .dashboard{
-        padding:25px 15px;
-    }
-
-    .dashboard-header h2{
-        font-size:28px;
-    }
-
-    .dashboard-header p{
-        font-size:14px;
-    }
-
-    .grid{
-        gap:18px;
-    }
-
-    .card{
-        padding:20px;
-    }
-
-    .card h3{
-        font-size:20px;
-    }
-
-    .btn{
-        width:100%;
-        text-align:center;
-    }
-
+.btn-success {
+    background: linear-gradient(135deg, var(--success), #10b981);
+    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
 }
 
-/* EXTRA SMALL DEVICES */
-@media(max-width:480px){
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
+}
 
-    .dashboard-header h2{
-        font-size:24px;
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger), #ef4444);
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+}
+
+/* =========================
+   QUICK ACTIONS ROW
+========================= */
+
+.quick-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.quick-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+.quick-action:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+    .dashboard {
+        padding: 24px 16px 40px;
     }
 
-    .dashboard-header p{
-        font-size:13px;
+    .dashboard-header h2 {
+        font-size: 32px;
     }
 
-    .card{
-        padding:18px;
+    .dashboard-header p {
+        font-size: 15px;
     }
 
-    .card h3{
-        font-size:18px;
+    .stats-bar {
+        gap: 10px;
     }
 
-    .card p{
-        font-size:13px;
+    .stat-pill {
+        padding: 8px 14px;
+        font-size: 13px;
     }
 
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .card h3 {
+        font-size: 17px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .quick-actions {
+        gap: 8px;
+    }
+
+    .quick-action {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header h2 {
+        font-size: 26px;
+    }
+
+    .welcome-badge {
+        font-size: 11px;
+        padding: 5px 12px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .card-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+    }
+
+    .card h3 {
+        font-size: 16px;
+    }
+
+    .card p {
+        font-size: 13px;
+    }
 }
 
 </style>
@@ -192,14 +433,72 @@ body{
     <!-- HEADER -->
     <div class="dashboard-header">
 
-        <h2>
-            Welcome, {{ request.user.username }}
-        </h2>
+        <div class="welcome-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Dashboard
+        </div>
 
-        <p>
-            Your luxury rental dashboard
-        </p>
+        <h2>Welcome back, <span>{{ request.user.username }}</span></h2>
+        <p>Manage your properties, messages, and account settings from one place.</p>
 
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stat-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="stat-value">0</span> Properties Listed
+        </div>
+        <div class="stat-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span class="stat-value">0</span> Messages
+        </div>
+        <div class="stat-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <span class="stat-value">0</span> Views
+        </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="quick-actions">
+        <a href="{% url 'create_property' %}" class="quick-action">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            New Listing
+        </a>
+        <a href="{% url 'inbox' %}" class="quick-action">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Messages
+        </a>
+        <a href="{% url 'property_list' %}" class="quick-action">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            Browse
+        </a>
+        <a href="{% url 'profile' %}" class="quick-action">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Profile
+        </a>
     </div>
 
     <!-- GRID -->
@@ -207,128 +506,101 @@ body{
 
         <!-- PROFILE -->
         <div class="card">
-
-            <h3>👤 Profile</h3>
-
-            <p>
-                Update your personal information and manage your account settings.
-            </p>
-
-            <a href="{% url 'profile' %}"
-               class="btn btn-primary">
-
-               Edit Profile
-
+            <div class="card-icon">👤</div>
+            <h3>Profile</h3>
+            <p>Update your personal information, contact details, and manage your account preferences.</p>
+            <a href="{% url 'profile' %}" class="btn btn-primary">
+                Edit Profile
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
             </a>
-
         </div>
 
         <!-- MY PROPERTIES -->
         <div class="card">
-
-            <h3>🏠 My Properties</h3>
-
-            <p>
-                View and manage all properties you have listed.
-            </p>
-
-            <a href="{% url 'my_properties' %}"
-               class="btn btn-primary">
-
-               My Properties
-
+            <div class="card-icon">🏠</div>
+            <h3>My Properties</h3>
+            <p>View, edit, and manage all the rental properties you have listed on the platform.</p>
+            <a href="{% url 'my_properties' %}" class="btn btn-primary">
+                My Properties
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
             </a>
-
         </div>
 
-        <!-- PROPERTY LIST -->
+        <!-- PROPERTY LISTING -->
         <div class="card">
-
-            <h3>📋 Property Listing</h3>
-
-            <p>
-                Explore available property listings on the platform.
-            </p>
-
-            <a href="{% url 'property_list' %}"
-               class="btn btn-primary">
-
-               Property Listing
-
+            <div class="card-icon">📋</div>
+            <h3>Browse Listings</h3>
+            <p>Explore available rental properties, filter by location and price, and find your next home.</p>
+            <a href="{% url 'property_list' %}" class="btn btn-primary">
+                Browse Now
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
             </a>
-
         </div>
 
         <!-- CREATE PROPERTY -->
         <div class="card">
-
-            <h3>➕ Create Property</h3>
-
-            <p>
-                Add a new property listing with images and details.
-            </p>
-
-            <a href="{% url 'create_property' %}"
-               class="btn btn-primary">
-
-               Create Property
-
+            <div class="card-icon">➕</div>
+            <h3>Create Listing</h3>
+            <p>Add a new property with images, descriptions, pricing, and amenities to attract tenants.</p>
+            <a href="{% url 'create_property' %}" class="btn btn-primary">
+                Add Property
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
             </a>
-
         </div>
 
         <!-- INBOX -->
         <div class="card">
-
-            <h3>📩 Inbox</h3>
-
-            <p>
-                Read and respond to messages from users and tenants.
-            </p>
-
-            <a href="{% url 'inbox' %}"
-               class="btn btn-primary">
-
-               View Messages
-
+            <div class="card-icon">📩</div>
+            <h3>Inbox</h3>
+            <p>Read and respond to messages from potential tenants and other users in real time.</p>
+            <a href="{% url 'inbox' %}" class="btn btn-primary">
+                View Messages
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
             </a>
-
         </div>
 
         <!-- RESET PASSWORD -->
         <div class="card">
-
-            <h3>🔑 Reset Password</h3>
-
-            <p>
-                Secure your account by updating your password anytime.
-            </p>
-
-            <a href="{% url 'reset_request' %}"
-               class="btn btn-success">
-
-               Reset Password
-
+            <div class="card-icon">🔑</div>
+            <h3>Security</h3>
+            <p>Keep your account safe by updating your password and reviewing your security settings.</p>
+            <a href="{% url 'reset_request' %}" class="btn btn-success">
+                Reset Password
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
             </a>
-
         </div>
 
         <!-- LOGOUT -->
         <div class="card">
-
-            <h3>🚪 Logout</h3>
-
-            <p>
-                Securely sign out of your account and end your session.
-            </p>
-
-            <a href="{% url 'logout' %}"
-               class="btn btn-danger">
-
-               Logout
-
+            <div class="card-icon">🚪</div>
+            <h3>Logout</h3>
+            <p>Securely sign out of your account and end your current session on this device.</p>
+            <a href="{% url 'logout' %}" class="btn btn-danger">
+                Sign Out
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
             </a>
-
         </div>
 
     </div>
