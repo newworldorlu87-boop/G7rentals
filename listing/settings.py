@@ -27,7 +27,12 @@ SECRET_KEY = 'django-insecure-oxsjzf5q(j(po1_h7u#hfei+f_##fb@hpko-*6rk-p*b+uk)8)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "g7rentals.onrender.com",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://g7rentals.onrender.com",]
 
 AUTH_USER_MODEL = 'accounts.User'
 # Application definition
