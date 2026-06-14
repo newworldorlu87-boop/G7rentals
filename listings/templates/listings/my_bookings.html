@@ -1,0 +1,67 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+My Bookings - G7Rentals
+{% endblock %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 0 auto; padding: 100px 24px 40px;">
+    <h1 style="font-size: 28px; font-weight: 800; margin-bottom: 32px;">📅 My Bookings</h1>
+
+    {% if bookings %}
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+        {% for booking in bookings %}
+        <div style="background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 24px; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
+            {% if booking.property.image %}
+            <img src="{{ booking.property.image.url }}" alt="" style="width: 120px; height: 90px; object-fit: cover; border-radius: var(--radius-md); flex-shrink: 0;">
+            {% endif %}
+            
+            <div style="flex: 1; min-width: 200px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <h3 style="font-size: 18px; font-weight: 700;">{{ booking.property.title }}</h3>
+                    {% if booking.status == 'pending' %}
+                    <span style="padding: 2px 10px; background: var(--warning-soft); color: var(--warning); border-radius: var(--radius-full); font-size: 11px; font-weight: 700;">Pending</span>
+                    {% elif booking.status == 'approved' %}
+                    <span style="padding: 2px 10px; background: var(--success-soft); color: var(--success); border-radius: var(--radius-full); font-size: 11px; font-weight: 700;">Approved</span>
+                    {% elif booking.status == 'rejected' %}
+                    <span style="padding: 2px 10px; background: var(--danger-soft); color: var(--danger); border-radius: var(--radius-full); font-size: 11px; font-weight: 700;">Rejected</span>
+                    {% endif %}
+                </div>
+                
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 4px;">
+                    📍 {{ booking.property.city }}, {{ booking.property.state }}
+                </p>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 4px;">
+                    📅 {{ booking.start_date|date:"M d, Y" }} — {{ booking.end_date|date:"M d, Y" }}
+                </p>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">
+                    👤 Landlord: {{ booking.landlord.get_full_name|default:booking.landlord.username }}
+                </p>
+                
+                <div style="font-size: 18px; font-weight: 800; color: var(--accent);">
+                    ₦{{ booking.total_price|floatformat:2 }}
+                </div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+                {% if booking.status == 'approved' %}
+                <a href="{% url 'listings:chat' booking.landlord.id booking.property.id %}" class="btn btn-sm btn-outline" style="text-decoration: none;">
+                    Message Landlord
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 80px 24px; background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border);">
+        <div style="font-size: 64px; margin-bottom: 16px;">📭</div>
+        <h3 style="font-size: 20px; font-weight: 700;">No bookings yet</h3>
+        <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">
+            You haven't made any booking requests yet. Browse properties to find your next home!
+        </p>
+        <a href="{% url 'listings:property_list' %}" class="btn btn-primary">Browse Properties</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

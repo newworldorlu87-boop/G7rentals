@@ -1088,7 +1088,7 @@ html, body {
         </div>
 
         <nav class="sidebar-nav">
-            <a href="{% url 'tenant_dashboard' %}" class="active">
+            <a href="{% url 'accounts:tenant_dashboard' %}" class="active">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7"></rect>
                     <rect x="14" y="3" width="7" height="7"></rect>
@@ -1098,7 +1098,7 @@ html, body {
                 Dashboard
             </a>
 
-            <a href="{% url 'property_list' %}">
+            <a href="{% url 'listings:property_list' %}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -1114,7 +1114,7 @@ html, body {
             </a>
 
             <!-- NOTIFICATIONS LINK (NEW) -->
-            <a href="{% url 'user_notifications' %}">
+            <a href="{% url 'accounts:user_notifications' %}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -1125,7 +1125,7 @@ html, body {
                 {% endif %}
             </a>
 
-            <a href="{% url 'conversations' %}">
+            <a href="{% url 'listings:conversations' %}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
@@ -1135,7 +1135,7 @@ html, body {
                 {% endif %}
             </a>
 
-            <a href="{% url 'profile' %}">
+            <a href="{% url 'accounts:profile' %}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
@@ -1145,7 +1145,7 @@ html, body {
         </nav>
 
         <div class="sidebar-footer">
-            <a href="{% url 'logout' %}">
+            <a href="{% url 'accounts:logout' %}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                     <polyline points="16 17 21 12 16 7"></polyline>
@@ -1173,7 +1173,7 @@ html, body {
             </div>
 
             <div class="nav-search">
-                <form method="GET" action="{% url 'property_list' %}">
+                <form method="GET" action="{% url 'listings:property_list' %}">
                     <input type="text" name="q" placeholder="Search properties, city, location...">
                     <button type="submit">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1186,7 +1186,7 @@ html, body {
 
             <div class="user-box">
                 <!-- NOTIFICATION BELL -->
-                <a href="{% url 'user_notifications' %}" class="notification-bell" aria-label="Notifications">
+                <a href="{% url 'accounts:user_notifications' %}" class="notification-bell" aria-label="Notifications">
                     <svg class="bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -1229,7 +1229,7 @@ html, body {
             <div class="action-card">
                 <h2>🏠 Find Your Next Home</h2>
                 <p>Browse apartments, houses, and rental homes available near you. Filter by location, price, and amenities.</p>
-                <a href="{% url 'property_list' %}" class="btn btn-primary">
+                <a href="{% url 'listings:property_list' %}" class="btn btn-primary">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -1288,7 +1288,7 @@ html, body {
                         {% endif %}
 
                         <div class="booking-actions">
-                            <a href="{% url 'chat' booking.property.owner.id booking.property.id %}" class="btn btn-primary btn-sm">
+                            <a href="{% url 'chat' book_property.property.owner.id booking.property.id %}" class="btn btn-primary btn-sm">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                 </svg>
@@ -1320,7 +1320,7 @@ html, body {
                         <span class="icon">❤️</span>
                         Saved Properties
                     </h2>
-                    <a href="{% url 'property_list' %}" class="btn btn-primary btn-sm">
+                    <a href="{% url 'listings:property_list' %}" class="btn btn-primary btn-sm">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -1367,14 +1367,14 @@ html, body {
                             </div>
 
                             <div class="property-actions">
-                                <a href="{% url 'detail' fav.property.id %}" class="btn btn-primary btn-sm">
+                                <a href="{% url 'listings:property_detail' fav.property.id %}" class="btn btn-primary btn-sm">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
                                     View
                                 </a>
-                                <a href="{% url 'toggle_favorite' fav.property.id %}" class="btn btn-danger btn-sm">
+                                <a href="{% url 'accounts:toggle_favorite' fav.property.id %}" class="btn btn-danger btn-sm">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="3 6 5 6 21 6"></polyline>
                                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -1393,7 +1393,7 @@ html, body {
                         <div class="empty-state-icon">❤️</div>
                         <h3>No saved properties yet</h3>
                         <p>Properties you favorite will appear here for quick access.</p>
-                        <a href="{% url 'property_list' %}" class="btn btn-primary" style="margin-top: 16px;">
+                        <a href="{% url 'listings:property_list' %}" class="btn btn-primary" style="margin-top: 16px;">
                             Browse Properties
                         </a>
                     </div>

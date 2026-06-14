@@ -353,7 +353,7 @@ body{
 <div class="page">
 
     <!-- BACK -->
-    <a href="{% url 'property_list' %}"
+    <a href="{% url 'listings:property_list' %}"
        class="back-link">
 
         ← Back to Listings
@@ -553,7 +553,7 @@ body{
 
                         {% if property.id in favorites %}
 
-                            <a href="{% url 'toggle_favorite' property.id %}"
+                            <a href="{% url 'listings:toggle_favorite' property.id %}"
                                class="btn btn-saved">
 
                                 ❤️ Saved Property
@@ -562,7 +562,7 @@ body{
 
                         {% else %}
 
-                            <a href="{% url 'toggle_favorite' property.id %}"
+                            <a href="{% url 'listings:toggle_favorite' property.id %}"
                                class="btn btn-save">
 
                                 🤍 Save Property
@@ -573,7 +573,7 @@ body{
 
                         {% if request.user != property.owner %}
 
-                        <a href="{% url 'chat' property.owner.id property.id %}"
+                        <a href="{% url 'listings:chat' property.owner.id property.id %}"
                            class="btn btn-chat">
 
                             💬 Chat Landlord
@@ -584,7 +584,7 @@ body{
 
                     {% else %}
 
-                        <a href="{% url 'login' %}"
+                        <a href="{% url 'accounts:login' %}"
                            class="btn btn-primary">
 
                             🔐 Login To Continue

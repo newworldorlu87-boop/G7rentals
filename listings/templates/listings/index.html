@@ -1206,7 +1206,7 @@ body {
                 G7Rentals
             </a>
 
-            <a href="{% url 'property_list' %}" class="nav-link">Properties</a>
+            <a href="{% url 'listings:property_list' %}" class="nav-link">Properties</a>
             <a href="#about" class="nav-link">About</a>
             <a href="#contact" class="nav-link">Contact</a>
 
@@ -1216,13 +1216,13 @@ body {
 
             {% if user.is_authenticated %}
 
-                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
-                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                <a href="{% url 'accounts:profile' %}" class="nav-link">Profile</a>
+                <a href="{% url 'accounts:logout' %}" class="nav-link">Logout</a>
 
             {% else %}
 
-                <a href="{% url 'login' %}" class="nav-link">Log In</a>
-                <a href="{% url 'register' %}" class="nav-link signup-btn">Get Started</a>
+                <a href="{% url 'accounts:login' %}" class="nav-link">Log In</a>
+                <a href="{% url 'accounts:register' %}" class="nav-link signup-btn">Get Started</a>
 
             {% endif %}
 
@@ -1239,15 +1239,15 @@ body {
     </div>
 
     <div id="mobileMenu" class="mobile-menu">
-        <a href="{% url 'property_list' %}">🏘 Properties</a>
-        <a href="#about">ℹ About</a>
-        <a href="#contact">📧 Contact</a>
+        <a href="{% url 'listings:property_list' %}">🏘 Properties</a>
+       <a href="{% url 'listings:about' %}" class="nav-link">About</a>
+       <a href="{% url 'listings:contact' %}" class="nav-link">Contact</a>
         {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}">👤 Profile</a>
-            <a href="{% url 'logout' %}">🚪 Logout</a>
+            <a href="{% url 'accounts:profile' %}">👤 Profile</a>
+            <a href="{% url 'accounts:logout' %}">🚪 Logout</a>
         {% else %}
-            <a href="{% url 'login' %}">🔐 Log In</a>
-            <a href="{% url 'register' %}">✨ Get Started</a>
+            <a href="{% url 'accounts:login' %}">🔐 Log In</a>
+            <a href="{% url 'accounts:register' %}">✨ Get Started</a>
         {% endif %}
     </div>
 
@@ -1282,7 +1282,7 @@ body {
 
         <div class="hero-actions">
 
-            <a href="{% url 'property_list' %}" class="btn btn-primary">
+            <a href="{% url 'listings:property_list' %}" class="btn btn-primary">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -1291,7 +1291,7 @@ body {
             </a>
 
             {% if not request.user.is_authenticated %}
-            <a href="{% url 'login' %}" class="btn btn-outline">
+            <a href="{% url 'accounts:login' %}" class="btn btn-outline">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                     <polyline points="10 17 15 12 10 7"></polyline>
@@ -1505,7 +1505,7 @@ body {
             <p>Explore the newest and most popular rental listings available right now.</p>
         </div>
 
-        <a href="{% url 'property_list' %}" class="view-all-btn">
+        <a href="{% url 'listings:property_list' %}" class="view-all-btn">
             View All Properties
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1561,7 +1561,7 @@ body {
                     <span>/ month</span>
                 </div>
 
-                <a href="{% url 'property_list' %}" class="btn btn-primary property-btn">
+                <a href="{% url 'listings:property_list' %}" class="btn btn-primary property-btn">
                     View Details
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1699,7 +1699,7 @@ body {
             connect with verified tenants, and manage bookings seamlessly from one dashboard.
         </p>
 
-        <a href="{% url 'login' %}" class="btn btn-outline">
+        <a href="{% url 'accounts:login' %}" class="btn btn-outline">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1710,59 +1710,6 @@ body {
     </div>
 
 </section>
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer class="footer">
-
-    <div class="footer-container">
-
-        <div class="footer-brand">
-            <a href="/" class="logo">
-                <span class="logo-icon">G</span>
-                G7Rentals
-            </a>
-            <p>
-                Nigeria's most trusted rental marketplace. Connecting verified landlords with quality tenants since 2024.
-            </p>
-        </div>
-
-        <div class="footer-column">
-            <h4>Platform</h4>
-            <a href="{% url 'property_list' %}">Browse Properties</a>
-            <a href="#">How It Works</a>
-            <a href="#">Pricing</a>
-            <a href="#">List Your Property</a>
-        </div>
-
-        <div class="footer-column">
-            <h4>Company</h4>
-            <a href="#">About Us</a>
-            <a href="#">Careers</a>
-            <a href="#">Blog</a>
-            <a href="#">Contact</a>
-        </div>
-
-        <div class="footer-column">
-            <h4>Support</h4>
-            <a href="#">Help Center</a>
-            <a href="#">Safety Guide</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Privacy Policy</a>
-        </div>
-
-    </div>
-
-    <div class="footer-bottom">
-        <span>© 2026 G7Rentals. All rights reserved.</span>
-        <span>
-            <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Cookies</a>
-        </span>
-    </div>
-
-</footer>
 
 <script>
 // Navbar scroll effect

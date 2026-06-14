@@ -1,4 +1,5 @@
 {% extends 'accounts/base.html' %}
+{% load socialaccount %}
 
 {% block content %}
 
@@ -696,21 +697,20 @@ body {
 
         <div class="nav-left">
 
-            <a href="/" class="logo">
+            <a href="{% url 'listings:index' %}" class="logo">
                 <span class="logo-icon">G</span>
                 G7Rentals
             </a>
 
-            <a href="{% url 'property_list' %}" class="nav-link">Properties</a>
-            <a href="/#about" class="nav-link">About</a>
-            <a href="/#contact" class="nav-link">Contact</a>
-
+            <a href="{% url 'listings:property_list' %}" class="nav-link">Properties</a>
+            <a href="{% url 'listings:about' %}" class="nav-link">About</a>
+            <a href="{% url 'listings:contact' %}" class="nav-link">Contact</a>
         </div>
 
         <div class="nav-right">
 
-            <a href="{% url 'login' %}" class="nav-link active">Log In</a>
-            <a href="{% url 'register' %}" class="nav-link signup-btn">Get Started</a>
+            <a href="{% url 'accounts:login' %}" class="nav-link active">Log In</a>
+            <a href="{% url 'accounts:register' %}" class="nav-link signup-btn">Get Started</a>
 
         </div>
 
@@ -725,11 +725,11 @@ body {
     </div>
 
     <div id="mobileMenu" class="mobile-menu">
-        <a href="{% url 'property_list' %}">🏘 Properties</a>
-        <a href="/#about">ℹ About</a>
-        <a href="/#contact">📧 Contact</a>
-        <a href="{% url 'login' %}">🔐 Log In</a>
-        <a href="{% url 'register' %}">✨ Get Started</a>
+        <a href="{% url 'listings:property_list' %}">🏘 Properties</a>
+        <a href="{% url 'listings:index' %}#about">ℹ About</a>
+        <a href="{% url 'listings:index' %}#contact">📧 Contact</a>
+        <a href="{% url 'accounts:login' %}">🔐 Log In</a>
+        <a href="{% url 'accounts:register' %}">✨ Get Started</a>
     </div>
 
 </nav>
@@ -778,7 +778,7 @@ body {
             {% endif %}
 
             <!-- GOOGLE -->
-            <a href="{% url 'google_login' %}" class="google-btn">
+            <a href="{% provider_login_url 'google' %}" class="google-btn">
                 <svg viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -794,7 +794,7 @@ body {
             </div>
 
             <!-- FORM -->
-            <form method="post">
+            <form method="post" action="{% url 'accounts:login' %}">
 
                 {% csrf_token %}
 
@@ -810,7 +810,7 @@ body {
                 </div>
 
                 <div class="forgot-password">
-                    <a href="{% url 'reset_request' %}">Forgot Password?</a>
+                    <a href="{% url 'accounts:reset_request' %}">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="btn-submit">
@@ -824,7 +824,7 @@ body {
             </form>
 
             <div class="register-link">
-                Don't have an account? <a href="{% url 'register' %}">Create one</a>
+                Don't have an account? <a href="{% url 'accounts:register' %}">Create one</a>
             </div>
 
         </div>
@@ -873,3 +873,4 @@ function togglePassword() {
 </script>
 
 {% endblock %}
+'''

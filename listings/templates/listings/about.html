@@ -1,0 +1,81 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}About Us - G7Rentals{% endblock %}
+{% block meta_description %}Learn about G7Rentals, Nigeria's trusted platform for finding verified rental properties from reliable landlords.{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto; padding: 120px 24px 60px;">
+    
+    <!-- Hero Section -->
+    <div style="text-align: center; margin-bottom: 64px;">
+        <div style="font-size: 64px; margin-bottom: 16px;">🏠</div>
+        <h1 style="font-size: 42px; font-weight: 800; color: var(--text-primary); margin-bottom: 16px; letter-spacing: -1px;">
+            About <span style="background: linear-gradient(135deg, var(--accent), #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">G7Rentals</span>
+        </h1>
+        <p style="font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.7;">
+            Connecting tenants with verified landlords across Nigeria. Safe, simple, and stress-free renting.
+        </p>
+    </div>
+
+    <!-- Mission -->
+    <div style="background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 40px; margin-bottom: 32px;">
+        <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px; color: var(--text-primary);">Our Mission</h2>
+        <p style="color: var(--text-secondary); line-height: 1.8; font-size: 16px;">
+            At G7Rentals, we believe finding a home should be easy, transparent, and secure. We built this platform to eliminate the stress of house hunting in Nigeria — no more fake listings, no more middlemen scams, no more wasted inspections.
+        </p>
+        <p style="color: var(--text-secondary); line-height: 1.8; font-size: 16px; margin-top: 16px;">
+            Every property on our platform is verified. Every landlord is vetted. Every transaction is protected.
+        </p>
+    </div>
+
+    <!-- What We Offer -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 32px;">
+        <div style="background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 32px;">
+            <div style="width: 48px; height: 48px; background: var(--accent-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Verified Listings</h3>
+            <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">Every property is physically inspected and verified before going live.</p>
+        </div>
+        
+        <div style="background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 32px;">
+            <div style="width: 48px; height: 48px; background: var(--success-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Trusted Landlords</h3>
+            <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">Landlords are identity-verified and rated by past tenants.</p>
+        </div>
+        
+        <div style="background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 32px;">
+            <div style="width: 48px; height: 48px; background: var(--warning-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Secure Payments</h3>
+            <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">Your rent is held securely until you confirm move-in.</p>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: var(--radius-lg); padding: 48px; color: white; text-align: center;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 32px;">
+            <div>
+                <div style="font-size: 36px; font-weight: 800;">500+</div>
+                <div style="font-size: 14px; opacity: 0.7; margin-top: 4px;">Verified Properties</div>
+            </div>
+            <div>
+                <div style="font-size: 36px; font-weight: 800;">200+</div>
+                <div style="font-size: 14px; opacity: 0.7; margin-top: 4px;">Trusted Landlords</div>
+            </div>
+            <div>
+                <div style="font-size: 36px; font-weight: 800;">1,000+</div>
+                <div style="font-size: 14px; opacity: 0.7; margin-top: 4px;">Happy Tenants</div>
+            </div>
+            <div>
+                <div style="font-size: 36px; font-weight: 800;">36</div>
+                <div style="font-size: 14px; opacity: 0.7; margin-top: 4px;">States Covered</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

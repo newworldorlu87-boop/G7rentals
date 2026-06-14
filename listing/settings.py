@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+     'django.contrib.humanize',
 
     # Third Party Apps
     'allauth',
@@ -85,7 +86,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-LOGIN_URL = 'login'
+LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
@@ -126,6 +127,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'listings.context_processors.pending_bookings_count',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -180,8 +182,8 @@ USE_TZ = True
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dkxkhd3gl',
-    'API_KEY': '475485621891332', 
-    'API_SECRET': 'nKxVURQ_VDqCwQ_vD4CQDa1aCR4',
+    'API_KEY': '637397471356176', 
+    'API_SECRET': 'GtYKEFv8OY6oRs8Cd5wbR42Pt_8',
 }
 
 # Use Cloudinary for media files

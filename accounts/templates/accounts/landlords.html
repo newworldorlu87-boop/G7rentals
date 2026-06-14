@@ -509,6 +509,7 @@ body {
 .action-card-icon.green { background: var(--success-soft); }
 .action-card-icon.purple { background: var(--purple-soft); }
 .action-card-icon.red { background: var(--danger-soft); }
+.action-card-icon.orange { background: var(--warning-soft); }
 
 .action-card h3 {
     font-size: 16px;
@@ -583,6 +584,16 @@ body {
     box-shadow: 0 6px 16px rgba(220, 38, 38, 0.35);
 }
 
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning), #f59e0b);
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+    color: white;
+}
+
+.btn-warning:hover {
+    box-shadow: 0 6px 16px rgba(217, 119, 6, 0.35);
+}
+
 .btn-outline {
     background: transparent;
     border: 1.5px solid var(--border);
@@ -599,6 +610,11 @@ body {
 .btn-sm {
     padding: 6px 12px;
     font-size: 12px;
+}
+
+.btn-xs {
+    padding: 4px 8px;
+    font-size: 11px;
 }
 
 /* =========================
@@ -741,13 +757,40 @@ body {
     background: var(--danger);
 }
 
+.status-vacant {
+    background: var(--warning-soft);
+    color: #92400e;
+}
+
+.status-vacant::before {
+    background: var(--warning);
+}
+
+.status-occupied {
+    background: var(--success-soft);
+    color: #065f46;
+}
+
+.status-occupied::before {
+    background: var(--success);
+}
+
+.status-maintenance {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.status-maintenance::before {
+    background: #9ca3af;
+}
+
 /* =========================
    PROPERTIES GRID
 ========================= */
 
 .properties-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
 }
 
@@ -800,6 +843,75 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
+.property-status-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.property-status-badge.vacant { background: var(--warning); }
+.property-status-badge.occupied { background: var(--success); }
+.property-status-badge.maintenance { background: #6b7280; }
+
+.property-actions-overlay {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.property-card:hover .property-actions-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.property-actions-overlay .btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.property-actions-overlay .btn-icon.edit {
+    background: white;
+    color: var(--accent);
+}
+
+.property-actions-overlay .btn-icon.edit:hover {
+    background: var(--accent);
+    color: white;
+    transform: scale(1.1);
+}
+
+.property-actions-overlay .btn-icon.delete {
+    background: white;
+    color: var(--danger);
+}
+
+.property-actions-overlay .btn-icon.delete:hover {
+    background: var(--danger);
+    color: white;
+    transform: scale(1.1);
+}
+
 .property-content {
     padding: 20px;
     flex: 1;
@@ -823,6 +935,20 @@ body {
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 12px;
+}
+
+.property-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.property-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .property-price {
@@ -922,6 +1048,87 @@ body {
 
 .toggle-btn.open svg {
     transform: rotate(180deg);
+}
+
+/* =========================
+   DELETE MODAL
+========================= */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-white);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--danger-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 28px;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.modal-text {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.modal-property-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    padding: 12px;
+    background: var(--bg-body);
+    border-radius: var(--radius-md);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.modal-actions .btn {
+    flex: 1;
 }
 
 /* =========================
@@ -1042,7 +1249,21 @@ body {
                 Dashboard
             </a>
 
-            <a href="{% url 'create_property' %}">
+            <!-- ============================================
+                 PROPERTY MANAGEMENT (NEW - CRUD LINKS)
+            ============================================ -->
+            <a href="{% url 'property_list' %}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                My Properties
+                {% if all_properties_count > 0 %}
+                    <span class="badge">{{ all_properties_count }}</span>
+                {% endif %}
+            </a>
+
+            <a href="{% url 'property_create' %}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1052,8 +1273,10 @@ body {
 
             <a href="{% url 'property_list' %}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
                 </svg>
                 Browse Listings
             </a>
@@ -1076,14 +1299,6 @@ body {
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
                 Bookings
-            </a>
-
-            <a href="#properties-section">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                My Properties
             </a>
 
             <a href="{% url 'profile' %}">
@@ -1126,7 +1341,7 @@ body {
             <!-- TOPBAR RIGHT: NOTIFICATION + USER -->
             <div style="display: flex; align-items: center; gap: 14px;">
 
-                <!-- NOTIFICATION BELL (NEW) -->
+                <!-- NOTIFICATION BELL -->
                 <a href="{% url 'user_notifications' %}" class="notification-bell" title="Notifications">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -1157,8 +1372,20 @@ body {
 
                 <div class="stat-box">
                     <div class="stat-icon">🏠</div>
-                    <h3>{{ properties|length }}</h3>
+                    <h3>{{ all_properties_count|default:properties|length }}</h3>
                     <p>Total Properties</p>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-icon" style="background: var(--success-soft);">✓</div>
+                    <h3>{{ occupied_count|default:0 }}</h3>
+                    <p>Occupied</p>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-icon" style="background: var(--warning-soft);">🚪</div>
+                    <h3>{{ vacant_count|default:0 }}</h3>
+                    <p>Vacant</p>
                 </div>
 
                 <div class="stat-box">
@@ -1168,9 +1395,9 @@ body {
                 </div>
 
                 <div class="stat-box">
-                    <div class="stat-icon">💰</div>
-                    <h3>₦{{ total_value|default:"0" }}</h3>
-                    <p>Property Value</p>
+                    <div class="stat-icon" style="background: var(--purple-soft);">💰</div>
+                    <h3>₦{{ monthly_income|default:total_value|default:"0" }}</h3>
+                    <p>Monthly Income</p>
                 </div>
 
             </div>
@@ -1182,7 +1409,7 @@ body {
                     <div class="action-card-icon green">➕</div>
                     <h3>Create Property</h3>
                     <p>Add a new rental listing with images, pricing, and details.</p>
-                    <a href="{% url 'create_property' %}" class="btn btn-success">
+                    <a href="{% url 'property_create' %}" class="btn btn-success">
                         Add Property
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1192,11 +1419,11 @@ body {
                 </div>
 
                 <div class="action-card">
-                    <div class="action-card-icon blue">📋</div>
-                    <h3>View Listings</h3>
-                    <p>Browse all available properties on the platform.</p>
+                    <div class="action-card-icon blue">🏘</div>
+                    <h3>Manage Properties</h3>
+                    <p>Edit, update, or delete your existing property listings.</p>
                     <a href="{% url 'property_list' %}" class="btn btn-primary">
-                        Browse
+                        Manage
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -1333,7 +1560,7 @@ body {
 
             </div>
 
-            <!-- PROPERTIES -->
+            <!-- PROPERTIES WITH EDIT/DELETE -->
             <div class="section" id="properties-section">
 
                 <div class="section-header">
@@ -1341,23 +1568,60 @@ body {
                         <span class="icon">🏘</span>
                         Your Properties
                     </h2>
-                    <a href="{% url 'create_property' %}" class="btn btn-primary btn-sm">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                        Add New
-                    </a>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="{% url 'property_list' %}" class="btn btn-outline btn-sm">
+                            View All
+                        </a>
+                        <a href="{% url 'property_create' %}" class="btn btn-primary btn-sm">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add New
+                        </a>
+                    </div>
                 </div>
 
                 <div class="properties-grid">
 
                     {% for property in properties %}
-                    <div class="property-card">
+                    <div class="property-card" id="property-{{ property.id }}">
                         <div class="property-image">
+                            {% if property.image %}
                             <img src="{{ property.image.url }}" alt="{{ property.title }}" loading="lazy">
+                            {% else %}
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #e2e8f0, #cbd5e1); display: flex; align-items: center; justify-content: center;">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                            </div>
+                            {% endif %}
+                            
                             <div class="property-tag">For Rent</div>
+                            
+                            <!-- Status Badge -->
+                            <div class="property-status-badge {{ property.status|default:'vacant' }}">
+                                {{ property.get_status_display|default:property.status|title }}
+                            </div>
+                            
+                            <!-- Hover Edit/Delete Actions -->
+                            <div class="property-actions-overlay">
+                                <a href="{% url 'property_update' property.id %}" class="btn-icon edit" title="Edit Property">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </a>
+                                <button onclick="confirmDelete('{{ property.id }}', '{{ property.title|escapejs }}')" class="btn-icon delete" title="Delete Property">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
+                        
                         <div class="property-content">
                             <h4>{{ property.title }}</h4>
                             <div class="property-location">
@@ -1365,19 +1629,49 @@ body {
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
-                                {{ property.city }}
+                                {{ property.city }}{% if property.state %}, {{ property.state }}{% endif %}
                             </div>
+                            
+                            <div class="property-meta">
+                                <span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M2 22h20V2z"></path>
+                                    </svg>
+                                    {{ property.bedrooms|default:"--" }} bd
+                                </span>
+                                <span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 22h16V2H4z"></path>
+                                    </svg>
+                                    {{ property.bathrooms|default:"--" }} ba
+                                </span>
+                                <span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                    </svg>
+                                    {{ property.sqft|default:"--" }} sqft
+                                </span>
+                            </div>
+                            
                             <div class="property-price">
-                                ₦{{ property.price }}
+                                ₦{{ property.price|intcomma }}
                                 <span>/ month</span>
                             </div>
+                            
                             <div class="property-actions">
-                                <a href="{% url 'detail' property.id %}" class="btn btn-primary">
+                                <a href="{% url 'property_detail' property.id %}" class="btn btn-primary">
                                     View Details
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <line x1="5" y1="12" x2="19" y2="12"></line>
                                         <polyline points="12 5 19 12 12 19"></polyline>
                                     </svg>
+                                </a>
+                                <a href="{% url 'property_update' property.id %}" class="btn btn-outline">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                    Edit
                                 </a>
                             </div>
                         </div>
@@ -1388,7 +1682,7 @@ body {
                         <div class="empty-state-icon">🏠</div>
                         <h4>No properties yet</h4>
                         <p>Start by adding your first rental property listing.</p>
-                        <a href="{% url 'create_property' %}" class="btn btn-primary" style="margin-top: 16px;">
+                        <a href="{% url 'property_create' %}" class="btn btn-primary" style="margin-top: 16px;">
                             Add Your First Property
                         </a>
                     </div>
@@ -1404,6 +1698,21 @@ body {
 
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-content">
+        <div class="modal-icon">🗑</div>
+        <h3 class="modal-title">Delete Property</h3>
+        <p class="modal-text">Are you sure you want to delete this property? This action cannot be undone.</p>
+        <div class="modal-property-name" id="modalPropertyName"></div>
+        <form id="deleteForm" method="post" class="modal-actions">
+            {% csrf_token %}
+            <button type="button" onclick="closeDeleteModal()" class="btn btn-outline">Cancel</button>
+            <button type="submit" class="btn btn-danger">Delete Property</button>
+        </form>
+    </div>
+</div>
+
 <script>
 function toggleBookings() {
     const content = document.getElementById("bookings-content");
@@ -1416,6 +1725,43 @@ function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("active");
     document.getElementById("sidebarOverlay").classList.toggle("active");
 }
+
+// Delete Modal Functions
+function confirmDelete(propertyId, propertyName) {
+    const modal = document.getElementById('deleteModal');
+    const form = document.getElementById('deleteForm');
+    const nameEl = document.getElementById('modalPropertyName');
+    
+    // Set the form action URL
+    form.action = `/properties/${propertyId}/delete/`;
+    
+    // Set property name
+    nameEl.textContent = `"${propertyName}"`;
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDeleteModal() {
+    const modal = document.getElementById('deleteModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Close modal on overlay click
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeDeleteModal();
+    }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeDeleteModal();
+    }
+});
 
 // Close sidebar when clicking a link on mobile
 document.querySelectorAll('.sidebar a').forEach(link => {

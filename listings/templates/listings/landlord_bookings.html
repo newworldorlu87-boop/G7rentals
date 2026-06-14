@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking Requests - G7Rentals{% endblock %}
+
+{% block content %}
+<div style="max-width: 1200px; margin: 0 auto; padding: 100px 24px 40px;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h1 style="font-size: 28px; font-weight: 800;">📋 Booking Requests</h1>
+            <p style="color: var(--text-secondary); margin-top: 4px;">
+                Manage all tenant bookings for your properties
+            </p>
+        </div>
+        <div style="display: flex; gap: 16px;">
+            <div style="background: var(--bg-white); padding: 12px 20px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Pending</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--warning);">{{ pending_count }}</div>
+            </div>
+            <div style="background: var(--bg-white); padding: 12px 20px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Earnings</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--success);">₦{{ total_earnings|floatformat:0 }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Filter -->
+    <div style="display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;">
+        <a href="?status=all" class="btn btn-sm {% if status_filter == 'all' %}btn-primary{% else %}btn-outline{% endif %}" style="text-decoration: none;">All</a>
+        {% for value, label in status_choices %}
+        <a href="?status={{ value }}" class="btn btn-sm {% if status_filter == value %}btn-primary{% else %}btn-outline{% endif %}" style="text-decoration: none;">{{ label }}</a>
+        {% endfor %}
+    </div>
+
+    {% if bookings %}
+    <div style="background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden;">
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: var(--bg-body); border-bottom: 1px solid var(--border);">
+                        <th style="padding: 16px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Property</th>
+                        <th style="padding: 16px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Tenant</th>
+                        <th style="padding: 16px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Dates</th>
+                        <th style="padding: 16px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Amount</th>
+                        <th style="padding: 16px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Status</th>
+                        <th style="padding: 16px; text-align: right; font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr style="border-bottom: 1px solid var(--border-light);">
+                        <td style="padding: 16px;">
+                            <a href="{% url 'listings:property_detail' booking.property.id %}" style="font-weight: 600; color: var(--text-primary); text-decoration: none;">
+                                {{ booking.property.title|truncatechars:25 }}
+                            </a>
+                            <div style="font-size: 12px; color: var(--text-muted);">{{ booking.property.city }}</div>
+                        </td>
+                        <td style="padding: 16px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #7c3aed); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">
+                                    {{ booking.tenant.first_name|default:booking.tenant.username|first|upper }}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px;">{{ booking.tenant.get_full_name|default:booking.tenant.username }}</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">{{ booking.tenant.email }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding: 16px; font-size: 14px;">
+                            <div style="font-weight: 500;">{{ booking.start_date|date:"M d" }} → {{ booking.end_date|date:"M d, Y" }}</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">{{ booking.start_date|timesince:booking.end_date }}</div>
+                        </td>
+                        <td style="padding: 16px; font-weight: 700; color: var(--accent);">₦{{ booking.total_price|floatformat:2 }}</td>
+                        <td style="padding: 16px;">
+                            {% if booking.status == 'pending' %}
+                            <span style="padding: 4px 12px; background: var(--warning-soft); color: var(--warning); border-radius: var(--radius-full); font-size: 12px; font-weight: 700;">⏳ Pending</span>
+                            {% elif booking.status == 'approved' %}
+                            <span style="padding: 4px 12px; background: var(--success-soft); color: var(--success); border-radius: var(--radius-full); font-size: 12px; font-weight: 700;">✅ Approved</span>
+                            {% elif booking.status == 'rejected' %}
+                            <span style="padding: 4px 12px; background: var(--danger-soft); color: var(--danger); border-radius: var(--radius-full); font-size: 12px; font-weight: 700;">❌ Rejected</span>
+                            {% else %}
+                            <span style="padding: 4px 12px; background: var(--border-light); color: var(--text-muted); border-radius: var(--radius-full); font-size: 12px; font-weight: 700;">{{ booking.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 16px; text-align: right;">
+                            <!-- ALWAYS SHOW BUTTONS FOR TESTING -->
+                            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                                <form method="post" action="{% url 'listings:update_booking_status' booking.id %}" style="margin: 0; padding: 0;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="approved">
+                                    <button type="submit" style="padding: 8px 16px; background: #059669; color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; margin: 0;">
+                                        Accept
+                                    </button>
+                                </form>
+                                <form method="post" action="{% url 'listings:update_booking_status' booking.id %}" style="margin: 0; padding: 0;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="rejected">
+                                    <button type="submit" style="padding: 8px 16px; background: transparent; color: #dc2626; border: 1.5px solid #dc2626; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; margin: 0;">
+                                        Decline
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 80px 24px; background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border);">
+        <div style="font-size: 64px; margin-bottom: 16px;">📭</div>
+        <h3 style="font-size: 20px; font-weight: 700;">No bookings found</h3>
+        <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">
+            When tenants book your properties, their requests will appear here.
+        </p>
+        <a href="{% url 'listings:property_list' %}" class="btn btn-primary">Browse Properties</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,1097 @@
+{% extends 'accounts/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}{{ property.title }} - G7Rentals{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* =========================
+       PROPERTY DETAIL PAGE
+    ========================= */
+    .property-page {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 32px 24px 80px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 28px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .breadcrumb a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .breadcrumb a:hover {
+        color: var(--accent);
+    }
+
+    .breadcrumb-separator {
+        color: var(--text-muted);
+        opacity: 0.5;
+    }
+
+    .breadcrumb-current {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    /* Hero Image Section */
+    .property-hero {
+        position: relative;
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow-xl);
+        aspect-ratio: 21 / 9;
+        min-height: 420px;
+    }
+
+    .property-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .property-hero:hover img {
+        transform: scale(1.03);
+    }
+
+    .property-hero-placeholder {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .property-hero-placeholder svg {
+        width: 80px;
+        height: 80px;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to top,
+            rgba(15, 23, 42, 0.85) 0%,
+            rgba(15, 23, 42, 0.4) 40%,
+            rgba(15, 23, 42, 0.1) 70%,
+            transparent 100%
+        );
+    }
+
+    .hero-actions {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+    }
+
+    .hero-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: var(--radius-md);
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition-fast);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    .hero-btn-edit {
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--text-primary);
+    }
+
+    .hero-btn-edit:hover {
+        background: white;
+        transform: translateY(-1px);
+    }
+
+    .hero-btn-delete {
+        background: rgba(220, 38, 38, 0.85);
+        color: white;
+    }
+
+    .hero-btn-delete:hover {
+        background: rgba(220, 38, 38, 0.95);
+        transform: translateY(-1px);
+    }
+
+    .hero-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 40px;
+        z-index: 5;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: var(--radius-full);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 14px;
+        backdrop-filter: blur(8px);
+    }
+
+    .status-occupied {
+        background: rgba(5, 150, 105, 0.2);
+        border: 1px solid rgba(5, 150, 105, 0.3);
+        color: #34d399;
+    }
+
+    .status-vacant {
+        background: rgba(217, 119, 6, 0.2);
+        border: 1px solid rgba(217, 119, 6, 0.3);
+        color: #fbbf24;
+    }
+
+    .status-default {
+        background: rgba(148, 163, 184, 0.2);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        color: #cbd5e1;
+    }
+
+    .hero-title {
+        font-size: 42px;
+        font-weight: 800;
+        color: white;
+        letter-spacing: -1px;
+        line-height: 1.15;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-location {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    /* Layout Grid */
+    .property-grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 32px;
+        align-items: start;
+    }
+
+    /* Cards */
+    .card {
+        background: var(--bg-white);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        transition: var(--transition-base);
+    }
+
+    .card:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .card-header {
+        padding: 24px 28px 0;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: -0.3px;
+    }
+
+    .card-body {
+        padding: 20px 28px 28px;
+    }
+
+    .card-divider {
+        height: 1px;
+        background: var(--border-light);
+        margin: 0 28px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 24px 16px;
+        background: var(--bg-body);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-light);
+        transition: var(--transition-fast);
+    }
+
+    .stat-item:hover {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        background: linear-gradient(135deg, var(--accent), #4f46e5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        color: white;
+    }
+
+    .stat-value {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--text-primary);
+        letter-spacing: -0.5px;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-top: 8px;
+    }
+
+    /* Description */
+    .description-text {
+        color: var(--text-secondary);
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .description-text p {
+        margin-bottom: 16px;
+    }
+
+    .description-text p:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Amenities */
+    .amenities-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .amenity-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: var(--radius-full);
+        font-size: 13px;
+        font-weight: 600;
+        transition: var(--transition-fast);
+    }
+
+    .amenity-tag:hover {
+        background: var(--accent);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    /* Bookings */
+    .booking-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        background: var(--bg-body);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-light);
+        transition: var(--transition-fast);
+        margin-bottom: 10px;
+    }
+
+    .booking-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .booking-item:hover {
+        border-color: var(--border);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .booking-user {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .booking-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), #7c3aed);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .booking-info {
+        line-height: 1.4;
+    }
+
+    .booking-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 14px;
+    }
+
+    .booking-date {
+        font-size: 13px;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    .booking-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 14px;
+        border-radius: var(--radius-full);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .status-approved {
+        background: var(--success-soft);
+        color: var(--success);
+    }
+
+    .status-pending {
+        background: var(--warning-soft);
+        color: var(--warning);
+    }
+
+    .status-rejected {
+        background: var(--danger-soft);
+        color: var(--danger);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 48px 24px;
+        color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--border-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        color: var(--text-muted);
+    }
+
+    /* Sidebar */
+    .sidebar {
+        position: sticky;
+        top: calc(var(--navbar-height) + 32px);
+    }
+
+    .price-card {
+        background: linear-gradient(135deg, var(--primary) 0%, #1e1b4b 100%);
+        border-radius: var(--radius-lg);
+        padding: 32px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+
+    .price-card::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, transparent 70%);
+        top: -100px;
+        right: -100px;
+        pointer-events: none;
+    }
+
+    .price-label {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 8px;
+    }
+
+    .price-value {
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+
+    .price-value span {
+        font-size: 18px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .price-period {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 500;
+    }
+
+    .price-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 20px 0;
+    }
+
+    .price-stat {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .price-stat-label {
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 500;
+    }
+
+    .price-stat-value {
+        font-weight: 700;
+        color: white;
+    }
+
+    /* Tenant Card */
+    .tenant-card {
+        background: var(--bg-white);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        padding: 28px;
+        margin-bottom: 24px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .tenant-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .tenant-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), #7c3aed);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+
+    .tenant-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .tenant-email {
+        font-size: 13px;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    .tenant-details {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .tenant-detail {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .tenant-detail-label {
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    .tenant-detail-value {
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .tenant-detail-value.success {
+        color: var(--success);
+    }
+
+    /* Vacant Notice */
+    .vacant-notice {
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        border: 1.5px solid #fbbf24;
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        margin-bottom: 24px;
+    }
+
+    .vacant-notice-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .vacant-notice-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        background: #fbbf24;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .vacant-notice-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #92400e;
+    }
+
+    .vacant-notice-text {
+        font-size: 14px;
+        color: #b45309;
+        line-height: 1.6;
+        font-weight: 500;
+    }
+
+    /* Quick Actions */
+    .actions-card {
+        background: var(--bg-white);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        padding: 28px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .actions-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 16px;
+    }
+
+    .action-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .action-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: var(--radius-md);
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: var(--transition-fast);
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    .action-item:hover {
+        background: var(--bg-body);
+        color: var(--text-primary);
+    }
+
+    .action-item svg {
+        flex-shrink: 0;
+        color: var(--accent);
+    }
+
+    .action-item.danger {
+        color: var(--danger);
+    }
+
+    .action-item.danger svg {
+        color: var(--danger);
+    }
+
+    .action-item.danger:hover {
+        background: var(--danger-soft);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .property-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+            position: static;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .property-page {
+            padding: 20px 16px 60px;
+        }
+
+        .property-hero {
+            min-height: 320px;
+            aspect-ratio: 16 / 10;
+        }
+
+        .hero-content {
+            padding: 24px;
+        }
+
+        .hero-title {
+            font-size: 28px;
+        }
+
+        .hero-actions {
+            top: 12px;
+            right: 12px;
+        }
+
+        .hero-btn {
+            padding: 8px 14px;
+            font-size: 12px;
+        }
+
+        .hero-btn span {
+            display: none;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stat-item {
+            padding: 18px 12px;
+        }
+
+        .stat-value {
+            font-size: 22px;
+        }
+
+        .sidebar {
+            grid-template-columns: 1fr;
+        }
+
+        .card-header,
+        .card-body {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .card-divider {
+            margin: 0 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: 24px;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .price-value {
+            font-size: 32px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="property-page">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{% url 'accounts:property_list' %}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Properties
+        </a>
+        <span class="breadcrumb-separator">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </span>
+        <span class="breadcrumb-current">{{ property.title }}</span>
+    </nav>
+
+    <!-- Hero Image -->
+    <div class="property-hero">
+        {% if property.image %}
+        <img src="{{ property.image.url }}" alt="{{ property.title }}" loading="eager">
+        {% else %}
+        <div class="property-hero-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+        </div>
+        {% endif %}
+        <div class="hero-overlay"></div>
+
+        <div class="hero-actions">
+            <a href="{% url 'accounts:property_update' property.pk %}" class="hero-btn hero-btn-edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                <span>Edit</span>
+            </a>
+            <a href="{% url 'accounts:property_delete' property.pk %}" class="hero-btn hero-btn-delete">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                <span>Delete</span>
+            </a>
+        </div>
+
+        <div class="hero-content">
+            <span class="status-badge status-{{ property.status|default:'default' }}">
+                {% if property.status == 'occupied' %}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                {% elif property.status == 'vacant' %}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                {% endif %}
+                {{ property.get_status_display|default:property.status|title }}
+            </span>
+            <h1 class="hero-title">{{ property.title }}</h1>
+            <div class="hero-location">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                {{ property.address }}{% if property.city %}, {{ property.city }}{% endif %}{% if property.state %}, {{ property.state }}{% endif %}{% if property.zip_code %} {{ property.zip_code }}{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="property-grid">
+
+        <!-- Main Column -->
+        <div class="main-column">
+
+            <!-- Stats -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-body">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 20h20"></path>
+                                    <path d="M5 20v-8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8"></path>
+                                    <path d="M10 10V7a3 3 0 0 1 6 0v3"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-value">{{ property.bedrooms|default:"--" }}</div>
+                            <div class="stat-label">Bedrooms</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 12h16"></path>
+                                    <path d="M4 18h16"></path>
+                                    <path d="M4 6h16"></path>
+                                    <path d="M8 6v12"></path>
+                                    <path d="M16 6v12"></path>
+                                </svg>
+                            </div>
+                            <div class="stat-value">{{ property.bathrooms|default:"--" }}</div>
+                            <div class="stat-label">Bathrooms</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                                </svg>
+                            </div>
+                            <div class="stat-value">{{ property.sqft|default:"--" }}</div>
+                            <div class="stat-label">Sq. Ft.</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                            </div>
+                            <div class="stat-value" style="font-size: 18px; text-transform: capitalize;">{{ property.property_type|default:"--" }}</div>
+                            <div class="stat-label">Type</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <h2 class="card-title">About This Property</h2>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-body">
+                    <div class="description-text">
+                        {{ property.description|default:"No description has been provided for this property yet."|linebreaks }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amenities -->
+            {% if property.amenities %}
+            <div class="card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <h2 class="card-title">Amenities</h2>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-body">
+                    <div class="amenities-list">
+                        {% for amenity in property.amenities.split %}
+                        <span class="amenity-tag">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            {{ amenity }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Booking History -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Booking History</h2>
+                </div>
+                <div class="card-divider"></div>
+                <div class="card-body">
+                    {% if bookings %}
+                    <div>
+                        {% for booking in bookings %}
+                        <div class="booking-item">
+                            <div class="booking-user">
+                                <div class="booking-avatar">
+                                    {{ booking.user.get_full_name|default:booking.user.email|slice:":2"|upper }}
+                                </div>
+                                <div class="booking-info">
+                                    <div class="booking-name">{{ booking.user.get_full_name|default:booking.user.email }}</div>
+                                    <div class="booking-date">{{ booking.created_at|date:"F j, Y" }}</div>
+                                </div>
+                            </div>
+                            <span class="booking-status status-{{ booking.status|lower }}">
+                                {{ booking.status }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+                        <p>No booking history yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+
+            <!-- Price Card -->
+            <div class="price-card">
+                <div class="price-label">Monthly Rent</div>
+                <div class="price-value">₦{{ property.price|intcomma }}<span>/mo</span></div>
+                <div class="price-period">Price is negotiable</div>
+                <div class="price-divider"></div>
+                <div class="price-stat">
+                    <span class="price-stat-label">Favorites</span>
+                    <span class="price-stat-value">{{ favorites_count|default:"0" }}</span>
+                </div>
+            </div>
+
+            <!-- Current Tenant -->
+            {% if current_tenant %}
+            <div class="tenant-card">
+                <h3 style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 16px;">Current Tenant</h3>
+                <div class="tenant-header">
+                    <div class="tenant-avatar">
+                        {{ current_tenant.get_full_name|default:current_tenant.email|slice:":2"|upper }}
+                    </div>
+                    <div>
+                        <div class="tenant-name">{{ current_tenant.get_full_name|default:current_tenant.email }}</div>
+                        <div class="tenant-email">{{ current_tenant.email }}</div>
+                    </div>
+                </div>
+                {% if current_booking %}
+                <div class="tenant-details">
+                    <div class="tenant-detail">
+                        <span class="tenant-detail-label">Booking Date</span>
+                        <span class="tenant-detail-value">{{ current_booking.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <div class="tenant-detail">
+                        <span class="tenant-detail-label">Status</span>
+                        <span class="tenant-detail-value success">{{ current_booking.status }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% elif property.status == 'vacant' %}
+            <div class="vacant-notice">
+                <div class="vacant-notice-header">
+                    <div class="vacant-notice-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <div class="vacant-notice-title">Available for Rent</div>
+                </div>
+                <p class="vacant-notice-text">This property is currently vacant and available for new tenants. Update the status when occupied.</p>
+            </div>
+            {% endif %}
+
+            <!-- Quick Actions -->
+            <div class="actions-card">
+                <div class="actions-title">Quick Actions</div>
+                <div class="action-list">
+                    <a href="{% url 'accounts:property_update' property.pk %}" class="action-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                        Edit Property
+                    </a>
+                    <form method="post" action="{% url 'accounts:property_toggle_status' property.pk %}" style="margin: 0;">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="{% if property.status == 'vacant' %}occupied{% else %}vacant{% endif %}">
+                        <button type="submit" class="action-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="17 1 21 5 17 9"></polyline>
+                                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                                <polyline points="7 23 3 19 7 15"></polyline>
+                                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                            </svg>
+                            Mark as {% if property.status == 'vacant' %}Occupied{% else %}Vacant{% endif %}
+                        </button>
+                    </form>
+                    <a href="{% url 'accounts:property_delete' property.pk %}" class="action-item danger">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        Delete Property
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

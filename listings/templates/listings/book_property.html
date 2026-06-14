@@ -1,0 +1,49 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+Book {{ property.title }} - G7Rentals
+{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; padding: 100px 24px 40px;">
+    <a href="{% url 'listings:property_detail' property.id %}" 
+       style="display: inline-flex; align-items: center; gap: 6px; color: var(--text-secondary); text-decoration: none; font-size: 14px; margin-bottom: 24px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Property
+    </a>
+
+    <div style="background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 32px;">
+        <h1 style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Book This Property</h1>
+        <p style="color: var(--text-secondary); margin-bottom: 24px;">{{ property.title }} — {{ property.display_price }}/month</p>
+
+        <form method="post" action="{% url 'listings:book_property' property.id %}">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary);">Check-in Date</label>
+                <input type="date" name="start_date" required
+                       style="width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 15px; font-family: inherit;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary);">Check-out Date</label>
+                <input type="date" name="end_date" required
+                       style="width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 15px; font-family: inherit;">
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary);">Notes for Landlord (optional)</label>
+                <textarea name="notes" rows="3" placeholder="Any special requests..."
+                          style="width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 15px; font-family: inherit; resize: vertical;"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                Send Booking Request
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -691,7 +691,7 @@ body {
             {% endif %}
 
             <!-- FORM -->
-            <form method="post" novalidate>
+            <form method="post" action="{% url 'accounts:register' %}" novalidate>
 
                 {% csrf_token %}
 
@@ -756,7 +756,7 @@ body {
             <!-- FOOTER -->
             <p class="form-footer">
                 Already have an account?
-                <a href="{% url 'login' %}">Sign in</a>
+                <a href="{% url 'accounts:login' %}">Sign in</a>
             </p>
 
         </div>
@@ -766,3 +766,4 @@ body {
 </div>
 
 {% endblock %}
+'''
