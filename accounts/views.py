@@ -246,6 +246,32 @@ def landlord_dashboard(request):
         'unread_notifications': unread_notifications,
     }
     return render(request, 'accounts/landlord_dashboard.html', context)
+@login_required
+def approve_booking(request, booking_id):
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        property__owner=request.user
+    )
+
+    booking.status = 'approved'
+    booking.save()
+
+    return redirect('accounts:landlord_dashboard')
+
+
+@login_required
+def reject_booking(request, booking_id):
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        property__owner=request.user
+    )
+
+    booking.status = 'rejected'
+    booking.save()
+
+    return redirect('accounts:landlord_dashboard')
 
 
 # ============================================

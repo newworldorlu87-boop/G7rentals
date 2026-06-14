@@ -741,30 +741,41 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(
 
                                  {% for booking in bookings %}
                                 <tr>
-                                    <td>{{ booking.user.email }}</td>
+                                    <td>{{ booking.tenant.email }}</td>
                                     <td>{{ booking.property.title }}</td>
 
                                     <td>
-                                        {% if booking.status == 'Pending' %}
-                                            <span class="status status-pending">Pending</span>
-                                        {% elif booking.status == 'Approved' %}
-                                            <span class="status status-approved">Approved</span>
-                                        {% elif booking.status == 'Rejected' %}
-                                            <span class="status status-rejected">Rejected</span>
-                                        {% else %}
-                                            <span class="status">{{ booking.status }}</span>
-                                        {% endif %}
+                                        {% if booking.status == 'pending' %}
+    <span class="status status-pending">Pending</span>
+{% elif booking.status == 'approved' %}
+    <span class="status status-approved">Approved</span>
+{% elif booking.status == 'rejected' %}
+    <span class="status status-rejected">Rejected</span>
+{% endif %}
                                     </td>
 
                                     <td>
-                                        {% if booking.status == 'Pending' %}
-                                            <a href="#" class="btn btn-success btn-sm">Accept</a>
-                                            <a href="#" class="btn btn-danger btn-sm">Reject</a>
-                                        {% elif booking.status == 'Approved' %}
-                                            <span style="color: var(--success); font-weight: 700; font-size: 13px;">✓ Confirmed</span>
-                                        {% elif booking.status == 'Rejected' %}
-                                            <span style="color: var(--danger); font-weight: 700; font-size: 13px;">✗ Declined</span>
-                                        {% endif %}
+                                        {% if booking.status == 'pending' %}
+    <a href="{% url 'accounts:approve_booking' booking.id %}"
+       class="btn btn-success btn-sm">
+        Accept
+    </a>
+
+    <a href="{% url 'accounts:reject_booking' booking.id %}"
+       class="btn btn-danger btn-sm">
+        Reject
+    </a>
+
+{% elif booking.status == 'approved' %}
+    <span style="color: var(--success); font-weight:700;">
+        ✓ Confirmed
+    </span>
+
+{% elif booking.status == 'rejected' %}
+    <span style="color: var(--danger); font-weight:700;">
+        ✗ Declined
+    </span>
+{% endif %}
                                     </td>
                                 </tr>
 

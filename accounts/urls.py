@@ -34,4 +34,16 @@ urlpatterns = [
     path('admin/send-notification/', views.send_notification, name='send_notification'),
     path('notifications/', views.user_notifications, name='user_notifications'),
     path('notifications/<int:notification_id>/read/', views.mark_notification_read, name='mark_notification_read'),
+
+    path(
+    'booking/<int:booking_id>/approve/',
+    views.approve_booking,
+    name='approve_booking'
+),
+
+path(
+    'booking/<int:booking_id>/reject/',
+    views.reject_booking,
+    name='reject_booking'
+),
 ]
