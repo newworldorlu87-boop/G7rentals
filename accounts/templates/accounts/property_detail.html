@@ -968,22 +968,31 @@
                 <div class="card-body">
                     {% if bookings %}
                     <div>
-                        {% for booking in bookings %}
-                        <div class="booking-item">
-                            <div class="booking-user">
-                                <div class="booking-avatar">
-                                    {{ booking.user.get_full_name|default:booking.user.email|slice:":2"|upper }}
-                                </div>
-                                <div class="booking-info">
-                                    <div class="booking-name">{{ booking.user.get_full_name|default:booking.user.email }}</div>
-                                    <div class="booking-date">{{ booking.created_at|date:"F j, Y" }}</div>
-                                </div>
-                            </div>
-                            <span class="booking-status status-{{ booking.status|lower }}">
-                                {{ booking.status }}
-                            </span>
-                        </div>
-                        {% endfor %}
+                       {% for booking in bookings %}
+<div class="booking-item">
+    <div class="booking-user">
+        <div class="booking-avatar">
+            {{ booking.tenant.get_full_name|default:booking.tenant.email|slice:":2"|upper }}
+        </div>
+        <div class="booking-info">
+            <div class="booking-name">{{ booking.tenant.get_full_name|default:booking.tenant.email }}</div>
+            <div class="booking-date">{{ booking.created_at|date:"F j, Y" }}</div>
+            {% if booking.start_date and booking.end_date %}
+            <div class="booking-date" style="color:var(--text-muted);font-size:12px;">
+                {{ booking.start_date|date:"M d" }} – {{ booking.end_date|date:"M d, Y" }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <span class="booking-status status-{{ booking.status|lower }}">
+        {{ booking.status }}
+    </span>
+</div>
+{% empty %}
+<div style="text-align:center;padding:40px;color:var(--text-muted);">
+    No bookings yet for this property.
+</div>
+{% endfor %}
                     </div>
                     {% else %}
                     <div class="empty-state">

@@ -572,4 +572,4 @@ def terms(request):
 
 def cookies(request):
     """Cookies Policy page."""
-    return render(request, 'listings/cookies.html')
+    return render(request, 'listings/cookies.html') 

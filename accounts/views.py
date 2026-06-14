@@ -366,7 +366,7 @@ def property_detail(request, pk):
         current_booking = Booking.objects.filter(
             property=property_obj,
             status='Approved'
-        ).select_related('user').first()
+        ).select_related('tenant').first()
         if current_booking:
             current_tenant = current_booking.user
 
